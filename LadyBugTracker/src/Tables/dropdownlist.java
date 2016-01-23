@@ -1,7 +1,21 @@
 package Tables;
 
 public class dropdownlist {
-	int dropdownListID;
-	String description;
+	private 	int dropdownListID;
+	private 	String description;
+	public int getDropdownListID() {
+		return dropdownListID;
+	}
+	public void setDropdownListID(int dropdownListID) {
+		this.dropdownListID = dropdownListID;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
+	
+	
 }

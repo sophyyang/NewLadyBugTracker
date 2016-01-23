@@ -3,12 +3,58 @@ package Tables;
 import java.sql.Date;
 
 public class history {
-	int historyID;
-	int ticketNo;
-	int userID;
-	int statusID;
-	int priorityID;
-	String description;
-	Date lastModified;
+	private 	int historyID;
+	private 	int ticketNo;
+	private 	int userID;
+	private 	int statusID;
+	private 	int priorityID;
+	private 	String description;
+	private 	Date lastModified;
+	
+	
+	public int getHistoryID() {
+		return historyID;
+	}
+	public void setHistoryID(int historyID) {
+		this.historyID = historyID;
+	}
+	public int getTicketNo() {
+		return ticketNo;
+	}
+	public void setTicketNo(int ticketNo) {
+		this.ticketNo = ticketNo;
+	}
+	public int getUserID() {
+		return userID;
+	}
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	public int getStatusID() {
+		return statusID;
+	}
+	public void setStatusID(int statusID) {
+		this.statusID = statusID;
+	}
+	public int getPriorityID() {
+		return priorityID;
+	}
+	public void setPriorityID(int priorityID) {
+		this.priorityID = priorityID;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Date getLastModified() {
+		return lastModified;
+	}
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
+	}
+	
+	
 
 }

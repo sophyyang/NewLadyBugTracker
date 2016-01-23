@@ -11,10 +11,17 @@ public class dropdownitems extends dropdownlist {
 	private 	Timestamp createdDate;
 	private 	Timestamp lastModified;
 	
-	public dropdownitems() {
-		
-	}
+
 	
+
+	
+	
+
+	@Override
+	public String toString() {
+		return "dropdownitems [ID=" + ID + ", description=" + description + ", iOrder=" + iOrder + ", createdDate="
+				+ createdDate + ", lastModified=" + lastModified + ", getDropdownListID()=" + getDropdownListID() + "]";
+	}
 	public int getID() {
 		return ID;
 	}

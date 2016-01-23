@@ -1,7 +1,8 @@
 package Tables;
 
- 
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class user {
 	private int userID;
@@ -11,19 +12,36 @@ public class user {
 	private int roleID;
 	private Timestamp createdDate;
 	private Timestamp lastModified;
- 
-	public user() {
-	}
+	//private String roleDescription;
 
-	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp createdDate,
-			Timestamp lastModified) {
-		this.setUserID(userID);
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.seteMailAdd(eMailAdd);
-		this.setRoleID(roleID);
-		 this.setCreatedDate(createdDate);
-		 this.setLastModified(lastModified);
+
+//	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp createdDate,
+//			Timestamp lastModified) {
+//		this.setUserID(userID);
+//		this.setFirstName(firstName);
+//		this.setLastName(lastName);
+//		this.seteMailAdd(eMailAdd);
+//		this.setRoleID(roleID);
+//		this.setCreatedDate(createdDate);
+//		this.setLastModified(lastModified);
+//
+//	}
+
+	public String getRoleDescription() {
+		String desc = "";
+		try {
+			LadyBugData rsList = new LadyBugData();
+
+			for (int i = 0; i < (rsList.LadyBugDropDownList().size() - 1); i++) {
+				if (rsList.LadyBugDropDownList().get(i).getID() == getRoleID()) {
+					desc = rsList.LadyBugDropDownList().get(i).getDescription();
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+		return desc;
 	}
 
 	public int getRoleID() {
@@ -65,26 +83,28 @@ public class user {
 	public void seteMailAdd(String eMailAdd) {
 		this.eMailAdd = eMailAdd;
 	}
-	 public Timestamp getCreatedDate() {
-	 return createdDate;
-	 }
-	 public void setCreatedDate(Timestamp createdDate) {
-	 this.createdDate = createdDate;
-	 }
-	 public Timestamp getLastModified() {
-	 return lastModified;
-	 }
-	 public void setLastModified(Timestamp lastModified) {
-	 this.lastModified = lastModified;
-	 }
+
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Timestamp getLastModified() {
+		return lastModified;
+	}
+
+	public void setLastModified(Timestamp lastModified) {
+		this.lastModified = lastModified;
+	}
 
 	@Override
 	public String toString() {
 		return "user [userID=" + userID + ", firstName=" + firstName + ", lastName=" + lastName + ", eMailAdd="
 				+ eMailAdd + ", roleID=" + roleID + ", createdDate=" + createdDate + ", lastModified=" + lastModified
-				+ "]";
+				+ ", roleDescription=" + getRoleDescription() + "]";
 	}
 
-	 
-	 
 }

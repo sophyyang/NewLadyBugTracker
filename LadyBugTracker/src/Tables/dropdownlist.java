@@ -4,9 +4,7 @@ public class dropdownlist {
 	private 	int dropdownListID;
 	private 	String description;
 	
-	public dropdownlist() {
-		
-	}
+
 	public int getDropdownListID() {
 		return dropdownListID;
 	}
@@ -19,7 +17,8 @@ public class dropdownlist {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	
+	
+
 	
 }

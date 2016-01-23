@@ -11,7 +11,9 @@ public class history {
 	private 	String description;
 	private 	Date lastModified;
 	
-	
+	public history () {
+		
+	}
 	public int getHistoryID() {
 		return historyID;
 	}

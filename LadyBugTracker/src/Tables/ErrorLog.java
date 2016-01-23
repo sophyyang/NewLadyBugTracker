@@ -7,6 +7,10 @@ public class ErrorLog {
 	private 	String errorMsg;
 	private 	String errorType;
 	private 	Date createdDate;
+	
+	public ErrorLog() {
+		
+	}
 	public int getID() {
 		return ID;
 	}

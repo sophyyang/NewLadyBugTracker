@@ -2,24 +2,23 @@ package Tables;
 
 import java.sql.Date;
 
-public class dropdownitems {
+public class dropdownitems extends dropdownlist {
 	private 	int ID;
-	private 	int dropdownListID;
+	//private 	int dropdownListID;
 	private 	String description;
 	private 	int iOrder;
 	private 	Date createdDate;
 	private 	Date lastModified;
+	
+	public dropdownitems() {
+		
+	}
+	
 	public int getID() {
 		return ID;
 	}
 	public void setID(int iD) {
 		ID = iD;
-	}
-	public int getDropdownListID() {
-		return dropdownListID;
-	}
-	public void setDropdownListID(int dropdownListID) {
-		this.dropdownListID = dropdownListID;
 	}
 	public String getDescription() {
 		return description;

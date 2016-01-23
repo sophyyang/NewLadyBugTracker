@@ -5,6 +5,11 @@ public class role {
 	private 	String description;
 	private 	int iClass;
 	private 	int iOrder;
+	
+	public role() {
+		
+	}
+	
 	public int getID() {
 		return ID;
 	}

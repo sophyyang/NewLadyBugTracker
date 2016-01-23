@@ -5,6 +5,11 @@ public class priority {
 	private 	String description;
 	private 	int iClass;
 	private 	int iOrder;
+	
+	
+	public priority() {
+		
+	}
 	public int getID() {
 		return ID;
 	}

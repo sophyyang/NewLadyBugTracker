@@ -15,6 +15,10 @@ public class ladybugdetail {
 	private 	String assigneeLastName;
 	private 	String detailDescription;
 	private 	Date lastModified;
+	
+	public ladybugdetail() {
+		
+	}
 	public int getTicketNo() {
 		return ticketNo;
 	}

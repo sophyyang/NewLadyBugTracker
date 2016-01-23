@@ -2,15 +2,18 @@ package Tables;
 
 import java.sql.Date;
 
-public class user {
+public class user extends role{
 	private 	int userID;
 	private 	String firstName;
 	private 	String lastName;
 	private 	String eMailAdd;
-	private 	int roleID;
+	//private 	int roleID;
 	private 	Date createdDate;
 	private 	Date lastModified;
 	
+	public user(){
+		
+	}
 	
 	public int getUserID() {
 		return userID;
@@ -35,12 +38,6 @@ public class user {
 	}
 	public void seteMailAdd(String eMailAdd) {
 		this.eMailAdd = eMailAdd;
-	}
-	public int getRoleID() {
-		return roleID;
-	}
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
 	}
 	public Date getCreatedDate() {
 		return createdDate;

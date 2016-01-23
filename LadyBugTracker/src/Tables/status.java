@@ -6,7 +6,9 @@ public class status {
 	private 	int iClass;
 	private 	int iOrder;
 	
-	
+	public status() {
+		
+	}
 	public int getID() {
 		return ID;
 	}

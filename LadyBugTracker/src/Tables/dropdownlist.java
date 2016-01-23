@@ -3,6 +3,10 @@ package Tables;
 public class dropdownlist {
 	private 	int dropdownListID;
 	private 	String description;
+	
+	public dropdownlist() {
+		
+	}
 	public int getDropdownListID() {
 		return dropdownListID;
 	}

@@ -3,12 +3,17 @@ package Tables;
 import java.sql.Date;
 
 public class bugticket {
-	private int ticketNo;
+	private     int ticketNo;
 	private 	int userID;
 	private 	String title;
 	private 	String Description;
 	private 	Date createdDate;
 	private 	Date lastModified;
+	
+	public bugticket() {
+		
+	}
+	
 	public int getTicketNo() {
 		return ticketNo;
 	}

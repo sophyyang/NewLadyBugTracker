@@ -1,14 +1,15 @@
 package Tables;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
 
 public class bugticket {
 	private     int ticketNo;
 	private 	int userID;
 	private 	String title;
 	private 	String Description;
-	private 	Date createdDate;
-	private 	Date lastModified;
+	private 	Timestamp createdDate;
+	private 	Timestamp lastModified;
 	
 	public bugticket() {
 		
@@ -38,16 +39,16 @@ public class bugticket {
 	public void setDescription(String description) {
 		Description = description;
 	}
-	public Date getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
-	public Date getLastModified() {
+	public Timestamp getLastModified() {
 		return lastModified;
 	}
-	public void setLastModified(Date lastModified) {
+	public void setLastModified(Timestamp lastModified) {
 		this.lastModified = lastModified;
 	}
 	

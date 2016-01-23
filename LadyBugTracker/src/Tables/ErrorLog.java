@@ -1,12 +1,12 @@
 package Tables;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ErrorLog {
 	private 	int ID;
 	private 	String errorMsg;
 	private 	String errorType;
-	private 	Date createdDate;
+	private 	Timestamp createdDate;
 	
 	public ErrorLog() {
 		
@@ -29,10 +29,10 @@ public class ErrorLog {
 	public void setErrorType(String errorType) {
 		this.errorType = errorType;
 	}
-	public Date getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
 	

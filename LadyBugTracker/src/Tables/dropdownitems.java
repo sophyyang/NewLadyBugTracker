@@ -1,14 +1,15 @@
 package Tables;
 
-import java.sql.Date;
+ 
+import java.sql.Timestamp;
 
 public class dropdownitems extends dropdownlist {
 	private 	int ID;
 	//private 	int dropdownListID;
 	private 	String description;
 	private 	int iOrder;
-	private 	Date createdDate;
-	private 	Date lastModified;
+	private 	Timestamp createdDate;
+	private 	Timestamp lastModified;
 	
 	public dropdownitems() {
 		
@@ -32,16 +33,16 @@ public class dropdownitems extends dropdownlist {
 	public void setiOrder(int iOrder) {
 		this.iOrder = iOrder;
 	}
-	public Date getCreatedDate() {
+	public Timestamp getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(Timestamp createdDate) {
 		this.createdDate = createdDate;
 	}
-	public Date getLastModified() {
+	public Timestamp getLastModified() {
 		return lastModified;
 	}
-	public void setLastModified(Date lastModified) {
+	public void setLastModified(Timestamp lastModified) {
 		this.lastModified = lastModified;
 	}
 	

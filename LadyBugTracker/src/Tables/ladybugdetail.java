@@ -1,6 +1,6 @@
 package Tables;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ladybugdetail {
 	private 	int ticketNo;
@@ -10,11 +10,11 @@ public class ladybugdetail {
 	private 	int statusID;
 	private  	int roleID;
 	private  	String Description;
-	private 	Date requestDate;
+	private 	Timestamp requestDate;
 	private 	String assigneeFirstName;
 	private 	String assigneeLastName;
 	private 	String detailDescription;
-	private 	Date lastModified;
+	private 	Timestamp lastModified;
 	
 	public ladybugdetail() {
 		
@@ -61,10 +61,10 @@ public class ladybugdetail {
 	public void setDescription(String description) {
 		Description = description;
 	}
-	public Date getRequestDate() {
+	public Timestamp getRequestDate() {
 		return requestDate;
 	}
-	public void setRequestDate(Date requestDate) {
+	public void setRequestDate(Timestamp requestDate) {
 		this.requestDate = requestDate;
 	}
 	public String getAssigneeFirstName() {
@@ -85,10 +85,10 @@ public class ladybugdetail {
 	public void setDetailDescription(String detailDescription) {
 		this.detailDescription = detailDescription;
 	}
-	public Date getLastModified() {
+	public Timestamp getLastModified() {
 		return lastModified;
 	}
-	public void setLastModified(Date lastModified) {
+	public void setLastModified(Timestamp lastModified) {
 		this.lastModified = lastModified;
 	}
 

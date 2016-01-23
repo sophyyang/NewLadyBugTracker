@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Timestamp;
 
 public class LadyBugData {
 	Connection con = null;
@@ -37,8 +38,10 @@ public class LadyBugData {
 				u.setLastName(rs.getString(3));
 				u.seteMailAdd(rs.getString(4));
 				u.setRoleID(rs.getInt(5));
-				u.setCreatedDate(rs.getDate(6));
-				u.setLastModified(rs.getDate(7));				
+				Timestamp times = rs.getTimestamp(6);				
+				u.setCreatedDate(times);
+				times = rs.getTimestamp(7);		
+				u.setLastModified(times);				
 				arrayList.add(u);				
 			}
 			System.out.println(arrayList);

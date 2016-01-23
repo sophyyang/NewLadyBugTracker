@@ -1,6 +1,6 @@
 package Tables;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class history {
 	private 	int historyID;
@@ -9,7 +9,7 @@ public class history {
 	private 	int statusID;
 	private 	int priorityID;
 	private 	String description;
-	private 	Date lastModified;
+	private 	Timestamp lastModified;
 	
 	public history () {
 		
@@ -50,10 +50,10 @@ public class history {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Date getLastModified() {
+	public Timestamp getLastModified() {
 		return lastModified;
 	}
-	public void setLastModified(Date lastModified) {
+	public void setLastModified(Timestamp lastModified) {
 		this.lastModified = lastModified;
 	}
 	

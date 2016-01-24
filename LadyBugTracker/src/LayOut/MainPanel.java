@@ -1,58 +1,28 @@
 package LayOut;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
+
+import java.awt.BorderLayout;
+import java.io.IOException;
+
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
 public class MainPanel extends JPanel{
-	JButton view = new JButton("View List");
-	JButton add = new JButton("Add Items");
-	JButton sort = new JButton("Sort List");
+ 
 	
-	public MainPanel(){
+	public MainPanel() {
 
-		add(view);
-		add(add);
-		add(sort);
+		JPanel topP = new TopPanel();
+		JPanel logInP = new LogInPanel();
 		
-		ButtonHandler handler = new ButtonHandler();
-		view.addActionListener(handler);
-		add.addActionListener(handler);
-		sort.addActionListener(handler);
+		setLayout(new BorderLayout());
+		
+		add(topP, BorderLayout.NORTH);
+		add(logInP, BorderLayout.CENTER);
+		 
+		
+		
 		
 	}
 	
-	class ButtonHandler implements ActionListener {
-		@Override
-        public void actionPerformed(ActionEvent e) {
-			
-                if (e.getSource() == view) {  
- 
-                	removeAll();  
-                    JPanel newPanel=new ViewListPanel();  
-                    add(newPanel);
-                    revalidate();  
-                
-                }
-//                if (e.getSource() == add) {
-//                	removeAll();
-//                    JPanel newPanel=new AddItemsPanel();
-//                    add(newPanel);
-//                    revalidate();
-//                    
-//                }
-//                if (e.getSource() == sort) {
-//                    removeAll();
-//                    JPanel newPanel=new SortListPanel();
-//                    add(newPanel);
-//                    revalidate();
-//                  
-//            }
-                
-        }
-
-}
-
 
 }

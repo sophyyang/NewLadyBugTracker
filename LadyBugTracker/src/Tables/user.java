@@ -12,7 +12,9 @@ public class user {
 	private int roleID;
 	private Timestamp createdDate;
 	private Timestamp lastModified;
-	//private String roleDescription;
+	private final int statusNo = 1;
+	private final int roleNo = 2;
+	private final int priorityNo = 3;
 
 
 //	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp createdDate,
@@ -27,23 +29,34 @@ public class user {
 //
 //	}
 
+	public String[] getColumnNames() {
+		String[] arrays = {"ID", "First Name", "Last Name" , "eMail" , " Role", "Created Date", "Last Modified Date"} ;
+		return arrays;
+	}
+
 	public String getRoleDescription() {
 		String desc = "";
 		try {
 			LadyBugData rsList = new LadyBugData();
-
-			for (int i = 0; i < (rsList.LadyBugDropDownList().size() - 1); i++) {
-				if (rsList.LadyBugDropDownList().get(i).getID() == getRoleID()) {
-					desc = rsList.LadyBugDropDownList().get(i).getDescription();
-				}
-			}
-		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			desc=	rsList.GetItemsList(" = " + roleNo + " AND ID = " + getRoleID()).get(0).getDescription();	
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
 		}
-
 		return desc;
 	}
-
+	
+	public String getRoleDescription(int input) {
+		String desc = "";
+		try {
+			LadyBugData rsList = new LadyBugData();
+			desc=	rsList.GetItemsList(" = " + roleNo + " AND ID = " + input).get(0).getDescription();	
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
+		}
+		return desc;
+	}
+	
+	
 	public int getRoleID() {
 		return roleID;
 	}

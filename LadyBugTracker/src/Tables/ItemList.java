@@ -7,7 +7,12 @@ public class ItemList {
 	private 	int iOrder;
 	private 	int dropdownListID;
 	
-	
+
+	public String[] getColumnNames() {
+		String[] arrays = {"ID", "Description", "Class", "Order"} ;
+		return arrays;
+	}
+
 	public int getID() {
 		return ID;
 	}

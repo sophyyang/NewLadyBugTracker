@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class LadyBugData {
 	private Connection con = null;
@@ -28,45 +30,23 @@ public class LadyBugData {
 			+ "((dropdownitems.DropdownListID = dropdownlist.DropdownListID))) " + " WHERE "
 			+ " (dropdownitems.DropdownListID  ";
 
-	ArrayList<ItemList> arrayList = new ArrayList<ItemList>();
+	// ArrayList<ItemList> arrayList = new ArrayList<ItemList>();
+	//
+	// public LadyBugData() {
+	//
+	// }
 
-	public LadyBugData() throws SQLException {
-		// dropdownItemStr
-		ArrayList<dropdownitems> arrayList = new ArrayList<dropdownitems>();
+	public String DateToString(Timestamp t) {
+		DateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df2 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
+		DateFormat df4 = new SimpleDateFormat("MM dd, yyyy");
+		DateFormat df5 = new SimpleDateFormat("E, MMM dd yyyy");
+		DateFormat df6 = new SimpleDateFormat("E, MMM dd yyyy HH:mm:ss");
 
-		// try {
-		makeConnection();
-		String q = dropdownItemStr;
-		st = con.createStatement();
-		rs = st.executeQuery(q);
-//		System.out.println("start....");
-//		while (rs.next()) {
-//			Tables.dropdownitems items = new Tables.dropdownitems();
-//			items.setID(rs.getInt("ID"));
-//			items.setDropdownListID(rs.getInt("DropdownListID"));
-//			items.setDescription(rs.getString("Description"));
-//			items.setiOrder(rs.getInt("iOrder"));
-//			Timestamp times = rs.getTimestamp("DateCreated");
-//			items.setCreatedDate(times);
-//			times = rs.getTimestamp("LastModified");
-//			items.setLastModified(times);
-//			arrayList.add(items);
-//		}
-//		System.out.println(arrayList);
+		String out = df2.format(t);
 
-		if (rs != null) {
-			rs.close();
-		}
-		if (st != null) {
-			st.close();
-		}
-		if (con != null) {
-			con.close();
-		}
-
-		// } catch (SQLException e) {
-		// System.out.println("Error with table or data");
-		// }
+		return out;
 	}
 
 	public void makeConnection() {
@@ -107,8 +87,8 @@ public class LadyBugData {
 				u.setCreatedDate(times);
 				times = rs.getTimestamp(7);
 				u.setLastModified(times);
-				u.getRoleDescription();
-				// u.getRoleDescription(rs.getInt(5));
+				// u.getRoleDescription();
+				u.getRoleDescription(rs.getInt(5));
 				arrayList.add(u);
 			}
 
@@ -195,7 +175,7 @@ public class LadyBugData {
 			String q = dropdownItemStr;
 			st = con.createStatement();
 			rs = st.executeQuery(q);
- 			while (rs.next()) {
+			while (rs.next()) {
 				Tables.dropdownitems items = new Tables.dropdownitems();
 				items.setID(rs.getInt("ID"));
 				items.setDropdownListID(rs.getInt("DropdownListID"));

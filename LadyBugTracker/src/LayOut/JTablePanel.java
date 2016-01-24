@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -23,9 +23,6 @@ public class JTablePanel extends JPanel {
 	private JPanel topPanel;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private final int statusNo = 1;
-	private final int roleNo = 2;
-	private final int priorityNo = 3;
 	private final int fontSize = 15;
 	private final int iWidth = 600;
 	private final int iHight = 500;
@@ -33,38 +30,108 @@ public class JTablePanel extends JPanel {
 	private JButton editB = new JButton("Edit");
 	private JButton deleteB = new JButton("Delete");
 	private JButton detailB = new JButton("List Detail");
+	String userInputStr;
+	int userInputInt;
 
 	// Constructor
 	public JTablePanel() {
+		userInputStr = "USER";
+		userInputInt =0;
 		userJTablePanel();
 	}
 
 	public JTablePanel(int input) {
+		userInputInt =input;
 		switch (input) {
 		case 0: // User
+			userInputStr = "USER";
 			userJTablePanel();
 			break;
 		default: // Status, Role, Priority
-			statusJTablePanel(input);
+			userInputStr = "ITEMS";
+			statusJTablePanel();
 			break;
 		}
 	}
 
 	public JTablePanel(String input) {
-		switch (input.toUpperCase()) {
+		userInputStr = input.toUpperCase();
+ 		switch (userInputStr) {
 		case "USER":
+			userInputInt = 0;
 			userJTablePanel();
 			break;
 		case "ROLE":
-			statusJTablePanel(2);
+			userInputInt = 1;
+			statusJTablePanel();
 			break;
 		case "STATUS":
-			statusJTablePanel(1);
+			userInputInt = 2;
+			statusJTablePanel();
 			break;
 		case "PRIORITY":
-			statusJTablePanel(3);
+			userInputInt = 3;
+			statusJTablePanel();
 			break;
 		}
+
+	}
+
+	public JScrollPane buildTable() {
+		
+		LadyBugData rsList = new LadyBugData();
+		
+		switch (userInputStr){
+		case "USER":
+			Tables.user u = new Tables.user();
+			ArrayList<user> arrayList = new ArrayList<user>(rsList.LadyBugUser());
+			String columnNames[] = u.getColumnNames();
+			String[][] dataValues = new String[arrayList.size()][7];
+			for (int r = 0; r < arrayList.size(); r++) {
+				dataValues[r][0] = Integer.toString(arrayList.get(r).getUserID());
+				dataValues[r][1] = arrayList.get(r).getFirstName();
+				dataValues[r][2] = arrayList.get(r).getLastName();
+				dataValues[r][3] = arrayList.get(r).geteMailAdd();
+				dataValues[r][4] = arrayList.get(r).getRoleDescription();
+				dataValues[r][5] = rsList.DateToString(arrayList.get(r).getCreatedDate());
+				dataValues[r][6] = rsList.DateToString(arrayList.get(r).getLastModified());
+			}
+			table = new JTable(dataValues, columnNames);
+			break;
+		case "ITEMS":
+ 			break;
+		}
+
+		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
+		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
+		table.setFillsViewportHeight(true);
+		
+		return scrollPane;
+	}
+	
+	public JPanel actionButtons( ) {
+		JPanel buttonPanel = new JPanel();
+		ButtonListener b = new ButtonListener();
+		addB.addActionListener(b);
+		editB.addActionListener(b);
+		deleteB.addActionListener(b);
+		detailB.addActionListener(b);
+		
+		buttonPanel.add(addB);
+		buttonPanel.add(editB);
+		switch (userInputStr) {
+		case "USER":
+			buttonPanel.add(deleteB);
+			buttonPanel.add(detailB);
+			break;
+		default:
+			break;
+		}
+
+		return buttonPanel;
+
 	}
 
 	public void userJTablePanel() {
@@ -74,41 +141,18 @@ public class JTablePanel extends JPanel {
 		topPanel.setLayout(new BorderLayout());
 		add(topPanel);
 
-		LadyBugData rsList = new LadyBugData();
-		Tables.user u = new Tables.user();
-		ArrayList<user> arrayList = new ArrayList<user>(rsList.LadyBugUser());
-
-		String columnNames[] = u.getColumnNames();
-		String[][] dataValues = new String[arrayList.size()][7];
-		for (int r = 0; r < arrayList.size(); r++) {
-			dataValues[r][0] = Integer.toString(arrayList.get(r).getUserID());
-			dataValues[r][1] = arrayList.get(r).getFirstName();
-			dataValues[r][2] = arrayList.get(r).getLastName();
-			dataValues[r][3] = arrayList.get(r).geteMailAdd();
-			dataValues[r][4] = arrayList.get(r).getRoleDescription();
-			dataValues[r][5] = rsList.DateToString(arrayList.get(r).getCreatedDate());
-			dataValues[r][6] = rsList.DateToString(arrayList.get(r).getLastModified());
-		}
-
-		table = new JTable(dataValues, columnNames);
-		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
-		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
-		table.setFillsViewportHeight(true);
+		scrollPane = new JScrollPane();
+		scrollPane = buildTable( );
 		topPanel.add(scrollPane, BorderLayout.CENTER);
-
+ 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(addB);
-		buttonPanel.add(editB);
-		buttonPanel.add(deleteB);
-		buttonPanel.add(detailB);
+		buttonPanel = actionButtons( );
 		topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	}
 
-	public void statusJTablePanel(int tableNo) {
-		switch (tableNo) {
+	public void statusJTablePanel( ) {
+		switch (userInputInt) {
 		case 1:
 			setBackground(Color.BLUE);
 			break;
@@ -120,7 +164,6 @@ public class JTablePanel extends JPanel {
 			break;
 		}
 
- 
 		topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		add(topPanel);
@@ -128,7 +171,7 @@ public class JTablePanel extends JPanel {
 		try {
 			LadyBugData rsList = new LadyBugData();
 			Tables.ItemList u = new Tables.ItemList();
-			ArrayList<ItemList> arrayList = new ArrayList<ItemList>(rsList.LadyBugItems(tableNo));
+			ArrayList<ItemList> arrayList = new ArrayList<ItemList>(rsList.LadyBugItems(userInputInt));
 
 			DefaultTableModel tableModel = new DefaultTableModel(u.getColumnNames(), 0);
 			JTable table = new JTable(tableModel);
@@ -148,9 +191,9 @@ public class JTablePanel extends JPanel {
 			table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
 			table.setFillsViewportHeight(true);
 			topPanel.add(scrollPane, BorderLayout.CENTER);
+
 			JPanel buttonPanel = new JPanel();
-			buttonPanel.add(addB);
-			buttonPanel.add(editB);
+			buttonPanel = actionButtons();
 			topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 		} catch (SQLException e) {
@@ -158,42 +201,71 @@ public class JTablePanel extends JPanel {
 		}
 	}
 
-	// public void roleJTablePanel() {
-	// setBackground(Color.BLUE);
-	//
-	// topPanel = new JPanel();
-	// topPanel.setLayout(new BorderLayout());
-	// add(topPanel);
-	//
-	// try {
-	// LadyBugData rsList = new LadyBugData();
-	// Tables.ItemList u = new Tables.ItemList();
-	// ArrayList<ItemList> arrayList = new
-	// ArrayList<ItemList>(rsList.LadyBugItems(roleNo));
-	//
-	// DefaultTableModel tableModel = new DefaultTableModel(u.getColumnNames(),
-	// 0);
-	// JTable table = new JTable(tableModel);
-	//
-	// for (int r = 0; r < arrayList.size(); r++) {
-	// String ID = Integer.toString(arrayList.get(r).getID());
-	// String description = arrayList.get(r).getDescription();
-	// String iClass = arrayList.get(r).getiClass();
-	// String iOrder = Integer.toString(arrayList.get(r).getiOrder());
-	// Object[] data = { ID, description, iClass, iOrder };
-	//
-	// tableModel.addRow(data);
-	// }
-	//
-	// scrollPane = new JScrollPane(table);
-	// table.setFont(new Font("Times New Roman", Font.PLAIN,fontSize ));
-	// table.setPreferredScrollableViewportSize(new Dimension(iWidth,iHight));
-	// table.setFillsViewportHeight(true);
-	//
-	// topPanel.add(scrollPane, BorderLayout.CENTER);
-	//
-	// } catch (SQLException e) {
-	// System.out.println(e.getMessage());
-	// }
+	class ButtonListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			if (e.getSource() == addB) {
+				removeAll();
+				System.out.println("remove all");
+				JPanel newPanel = new JTablePanel();
+				System.out.println("will add new Pnael");
+				add(newPanel);
+				System.out.println("Done added");
+				revalidate();
+				
+				// newPanel.repaint();
+				// System.out.println(store.getSelectedItem());
+				// String tempStore = store.getSelectedItem().toString();
+				//
+				// String tempItem = item.getText();
+				//
+				// ListItem t = new ListItem(tempStore, tempItem);
+				// itemDAO.insertNewItem(t);
+				//
+				// item.setText("");
+				//
+				// System.out.println("Add new item to database");
+			}
+
+			if (e.getSource() == detailB) {
+				
+				removeAll();
+				JPanel newPanel = new JTablePanel();
+				add(newPanel);
+				revalidate();
+				// newPanel.repaint();
+			}
+
+			if (e.getSource() == editB) {
+
+				removeAll();
+				JPanel newPanel = new JTablePanel();
+				add(newPanel);
+				revalidate();
+				// newPanel.repaint();
+			}
+
+			if (e.getSource() == deleteB) {
+
+				removeAll();
+				JPanel newPanel = new JTablePanel();
+				add(newPanel);
+				revalidate();
+				// newPanel.repaint();
+			}
+
+			// if (e.getSource() == back) {
+			// removeAll();
+			// JPanel newPanel = new MainPanel();
+			// add(newPanel);
+			// revalidate();
+			// //newPanel.repaint();
+			// }
+			// }
+
+		}
+
+	}
 }

@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainPanel extends JPanel{
- 
+
 	
 	public MainPanel() {
 
@@ -18,9 +18,7 @@ public class MainPanel extends JPanel{
 		
 		add(topP, BorderLayout.NORTH);
 		add(logInP, BorderLayout.CENTER);
-		 
-		
-		
+		 		
 		
 	}
 	

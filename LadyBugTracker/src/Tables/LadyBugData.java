@@ -58,7 +58,7 @@ public class LadyBugData {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
-			System.out.println("Connection made");
+			//System.out.println("Connection made");
 
 		} catch (Exception ex) {
 			Logger lgr = Logger.getLogger(LadyBugData.class.getName());
@@ -68,14 +68,23 @@ public class LadyBugData {
 		}
 
 	}
-
+	
 	public ArrayList<user> LadyBugUser() {
+ 		return getUserList(" ");
+	}
+
+	public ArrayList<user> LadyBugUser(String ID) {
+		String sqlWhereStr = " WHERE UserID = " + ID;		
+ 		return getUserList(sqlWhereStr);
+	}
+
+	public ArrayList<user> getUserList(String sqlWhereStr) {
 		ArrayList<user> arrayList = new ArrayList<user>();
 		try {
 			makeConnection();
 			String q = userSqlStr;
 			st = con.createStatement();
-			rs = st.executeQuery(q);
+			rs = st.executeQuery(q + sqlWhereStr);
 			while (rs.next()) {
 				Tables.user u = new Tables.user();
 				u.setUserID(rs.getInt(1));
@@ -108,6 +117,7 @@ public class LadyBugData {
 
 		return arrayList;
 	}
+	
 
 	public ArrayList<ItemList> LadyBugItems() throws SQLException {
 		return GetItemsList(" >= 0 ");
@@ -116,7 +126,7 @@ public class LadyBugData {
 	public ArrayList<ItemList> LadyBugItems(int inputType) throws SQLException {
 		return GetItemsList(" = " + inputType);
 	}
-
+	
 	public ArrayList<ItemList> LadyBugItems(String inputType) throws SQLException {
 		int results = 2;
 		switch (inputType.toUpperCase()) {
@@ -131,7 +141,28 @@ public class LadyBugData {
 			break;
 
 		}
-		return GetItemsList(" = " + results);
+		return GetItemsList(" = " + results);	
+	}
+
+	public ArrayList<ItemList> LadyBugItems(int inputType, String inputID) throws SQLException {
+		return GetItemsList(" = " + inputType + " AND ID = " + inputID);
+	}
+
+	public ArrayList<ItemList> LadyBugItems(String inputType,  String inputID)  {
+		int results = 2;
+		switch (inputType.toUpperCase()) {
+		case "STATUS":
+			results = 1;
+			break;
+		case "ROLE":
+			results = 2;
+			break;
+		case "PRIORITY":
+			results = 3;
+			break;
+
+		}
+		return GetItemsList(" = " + results + " AND ID = " + inputID);
 	}
 
 	public ArrayList<ItemList> GetItemsList(String inputType) {
@@ -169,12 +200,20 @@ public class LadyBugData {
 	}
 
 	public ArrayList<dropdownitems> LadyBugDropDownList() {
+		return LadyBugDropDownList("none");
+	}
+	
+	public ArrayList<dropdownitems> LadyBugDropDownList(String ID) {
 		ArrayList<dropdownitems> arrayList = new ArrayList<dropdownitems>();
 		try {
+			String whereSQLstr = "";
+			if (!ID.equals("none")) {
+				whereSQLstr = " WHERE ( ID =" + ID + ") ";
+			}
 			makeConnection();
 			String q = dropdownItemStr;
 			st = con.createStatement();
-			rs = st.executeQuery(q);
+			rs = st.executeQuery(q + whereSQLstr);
 			while (rs.next()) {
 				Tables.dropdownitems items = new Tables.dropdownitems();
 				items.setID(rs.getInt("ID"));

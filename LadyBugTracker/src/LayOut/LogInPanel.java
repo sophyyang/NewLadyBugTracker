@@ -14,8 +14,6 @@ import javax.swing.JTextField;
 
 public class LogInPanel extends JPanel {
 	
-	// ArrayList<Tables.user> arrayList = new ArrayList<Tables.user>();
-	 
 	 JLabel eMailL = new JLabel("email address:");
 	 JTextField eMailT = new JTextField(50);
 	 JButton signInB = new JButton("Sign In");

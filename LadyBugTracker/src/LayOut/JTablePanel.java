@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,16 +34,18 @@ public class JTablePanel extends JPanel {
 	private JButton detailB = new JButton("List Detail");
 	String userInputStr;
 	int userInputInt;
+	String selectedID;
+	String userActionStr;
 
 	// Constructor
 	public JTablePanel() {
 		userInputStr = "USER";
-		userInputInt =0;
+		userInputInt = 0;
 		userJTablePanel();
 	}
 
 	public JTablePanel(int input) {
-		userInputInt =input;
+		userInputInt = input;
 		switch (input) {
 		case 0: // User
 			userInputStr = "USER";
@@ -56,16 +60,16 @@ public class JTablePanel extends JPanel {
 
 	public JTablePanel(String input) {
 		userInputStr = input.toUpperCase();
- 		switch (userInputStr) {
+		switch (userInputStr) {
 		case "USER":
 			userInputInt = 0;
 			userJTablePanel();
 			break;
-		case "ROLE":
+		case "STATUS":
 			userInputInt = 1;
 			statusJTablePanel();
 			break;
-		case "STATUS":
+		case "ROLE":
 			userInputInt = 2;
 			statusJTablePanel();
 			break;
@@ -78,10 +82,10 @@ public class JTablePanel extends JPanel {
 	}
 
 	public JScrollPane buildTable() {
-		
+
 		LadyBugData rsList = new LadyBugData();
-		
-		switch (userInputStr){
+
+		switch (userInputStr) {
 		case "USER":
 			Tables.user u = new Tables.user();
 			ArrayList<user> arrayList = new ArrayList<user>(rsList.LadyBugUser());
@@ -99,7 +103,7 @@ public class JTablePanel extends JPanel {
 			table = new JTable(dataValues, columnNames);
 			break;
 		case "ITEMS":
- 			break;
+			break;
 		}
 
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -107,18 +111,18 @@ public class JTablePanel extends JPanel {
 		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
 		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
 		table.setFillsViewportHeight(true);
-		
+
 		return scrollPane;
 	}
-	
-	public JPanel actionButtons( ) {
+
+	public JPanel actionButtons() {
 		JPanel buttonPanel = new JPanel();
 		ButtonListener b = new ButtonListener();
 		addB.addActionListener(b);
 		editB.addActionListener(b);
 		deleteB.addActionListener(b);
 		detailB.addActionListener(b);
-		
+
 		buttonPanel.add(addB);
 		buttonPanel.add(editB);
 		switch (userInputStr) {
@@ -142,16 +146,17 @@ public class JTablePanel extends JPanel {
 		add(topPanel);
 
 		scrollPane = new JScrollPane();
-		scrollPane = buildTable( );
+		scrollPane = buildTable();
 		topPanel.add(scrollPane, BorderLayout.CENTER);
- 
+
 		JPanel buttonPanel = new JPanel();
-		buttonPanel = actionButtons( );
+		buttonPanel = actionButtons();
 		topPanel.add(buttonPanel, BorderLayout.SOUTH);
 
 	}
 
-	public void statusJTablePanel( ) {
+	public void statusJTablePanel() {
+
 		switch (userInputInt) {
 		case 1:
 			setBackground(Color.BLUE);
@@ -174,7 +179,7 @@ public class JTablePanel extends JPanel {
 			ArrayList<ItemList> arrayList = new ArrayList<ItemList>(rsList.LadyBugItems(userInputInt));
 
 			DefaultTableModel tableModel = new DefaultTableModel(u.getColumnNames(), 0);
-			JTable table = new JTable(tableModel);
+			table = new JTable(tableModel);
 
 			for (int r = 0; r < arrayList.size(); r++) {
 				String ID = Integer.toString(arrayList.get(r).getID());
@@ -206,65 +211,36 @@ public class JTablePanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
+			selectedID = "0";
+
 			if (e.getSource() == addB) {
-				removeAll();
-				System.out.println("remove all");
-				JPanel newPanel = new JTablePanel();
-				System.out.println("will add new Pnael");
-				add(newPanel);
-				System.out.println("Done added");
-				revalidate();
-				
-				// newPanel.repaint();
-				// System.out.println(store.getSelectedItem());
-				// String tempStore = store.getSelectedItem().toString();
-				//
-				// String tempItem = item.getText();
-				//
-				// ListItem t = new ListItem(tempStore, tempItem);
-				// itemDAO.insertNewItem(t);
-				//
-				// item.setText("");
-				//
-				// System.out.println("Add new item to database");
-			}
-
-			if (e.getSource() == detailB) {
-				
-				removeAll();
-				JPanel newPanel = new JTablePanel();
-				add(newPanel);
-				revalidate();
-				// newPanel.repaint();
-			}
-
-			if (e.getSource() == editB) {
 
 				removeAll();
-				JPanel newPanel = new JTablePanel();
+				JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
 				add(newPanel);
 				revalidate();
-				// newPanel.repaint();
-			}
+				newPanel.repaint();
 
-			if (e.getSource() == deleteB) {
+			} else if (table.getSelectedRow() >= 0) {
+				selectedID = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
+
+				if (e.getSource() == detailB) {
+					userActionStr = "DETAILB";
+				} else if (e.getSource() == deleteB) {
+					userActionStr = "DELETEB";
+				} else {
+					userActionStr = "EDITB";
+				}
 
 				removeAll();
-				JPanel newPanel = new JTablePanel();
+				JPanel newPanel = new DetailPanel(userInputStr, userActionStr, selectedID);
 				add(newPanel);
 				revalidate();
-				// newPanel.repaint();
+				newPanel.repaint();
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select a record to continue");
 			}
-
-			// if (e.getSource() == back) {
-			// removeAll();
-			// JPanel newPanel = new MainPanel();
-			// add(newPanel);
-			// revalidate();
-			// //newPanel.repaint();
-			// }
-			// }
-
 		}
 
 	}

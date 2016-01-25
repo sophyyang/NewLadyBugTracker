@@ -14,6 +14,7 @@ public class LadyBugTracker {
 		
 		JFrame master = new JFrame();
 		JPanel mainPanel = new MainPanel();
+		master.setTitle("Welecom to Lady Bug Tracker");
 		master.add(mainPanel);
  		master.setSize((iWidth +200) , (iHight + 300));
 		master.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

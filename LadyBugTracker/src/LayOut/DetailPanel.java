@@ -18,7 +18,6 @@ public class DetailPanel extends JPanel {
 	private JLabel idL = new JLabel("ID:");
 	private JLabel idT = new JLabel("");
 	private JLabel classL = new JLabel("");
-
 	private JLabel descL = new JLabel("Desciption: ");
 	private JTextField descT = new JTextField(20);
 	private JLabel orderL = new JLabel("Order:");

@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 public class LadyBugData {
 	private Connection con = null;
@@ -48,6 +49,12 @@ public class LadyBugData {
 
 		return out;
 	}
+	
+public String currentDateTimeToString() {
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	LocalDateTime now = LocalDateTime.now();
+	return now.toString();
+}
 
 	public void makeConnection() {
 		String url = "jdbc:mysql://localhost/ladybugtracker";
@@ -68,6 +75,8 @@ public class LadyBugData {
 		}
 
 	}
+	
+	
 	
 	public ArrayList<user> LadyBugUser() {
  		return getUserList(" ");
@@ -169,7 +178,7 @@ public class LadyBugData {
 		ArrayList<ItemList> arrayList = new ArrayList<ItemList>();
 		try {
 			makeConnection();
-			String q = itemsSqlStr + inputType + ") ";
+			String q = itemsSqlStr + inputType + ") ORDER BY dropdownListID, iOrder";
 			st = con.createStatement();
 			rs = st.executeQuery(q);
 			while (rs.next()) {

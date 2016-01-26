@@ -10,12 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 import Tables.ItemList;
 import Tables.LadyBugData;
@@ -28,8 +32,8 @@ public class JTablePanel extends JPanel {
 	private final int fontSize = 15;
 	private final int iWidth = 600;
 	private final int iHight = 500;
-	private JButton addB = new JButton("Add");
-	private JButton editB = new JButton("Edit");
+	private JButton addB = new JButton("Add New ");
+	private JButton editB = new JButton("Submit Edit");
 	private JButton deleteB = new JButton("Delete");
 	private JButton detailB = new JButton("List Detail");
 	String userInputStr;
@@ -88,19 +92,48 @@ public class JTablePanel extends JPanel {
 		switch (userInputStr) {
 		case "USER":
 			Tables.user u = new Tables.user();
-			ArrayList<user> arrayList = new ArrayList<user>(rsList.LadyBugUser());
 			String columnNames[] = u.getColumnNames();
-			String[][] dataValues = new String[arrayList.size()][7];
-			for (int r = 0; r < arrayList.size(); r++) {
-				dataValues[r][0] = Integer.toString(arrayList.get(r).getUserID());
-				dataValues[r][1] = arrayList.get(r).getFirstName();
-				dataValues[r][2] = arrayList.get(r).getLastName();
-				dataValues[r][3] = arrayList.get(r).geteMailAdd();
-				dataValues[r][4] = arrayList.get(r).getRoleDescription();
-				dataValues[r][5] = rsList.DateToString(arrayList.get(r).getCreatedDate());
-				dataValues[r][6] = rsList.DateToString(arrayList.get(r).getLastModified());
+			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
+			for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
+				dataValues[r][0] = Integer.toString(rsList.LadyBugUser().get(r).getUserID());
+				dataValues[r][1] = rsList.LadyBugUser().get(r).getFirstName();
+				dataValues[r][2] = rsList.LadyBugUser().get(r).getLastName();
+				dataValues[r][3] = rsList.LadyBugUser().get(r).geteMailAdd();
+				dataValues[r][4] = rsList.LadyBugUser().get(r).getRoleDescription();
+				dataValues[r][5] = rsList.DateToString(rsList.LadyBugUser().get(r).getCreatedDate());
+				dataValues[r][6] = rsList.DateToString(rsList.LadyBugUser().get(r).getLastModified());
 			}
-			table = new JTable(dataValues, columnNames);
+			table = new JTable(dataValues, columnNames) {
+				DefaultTableCellRenderer colorBlack = new DefaultTableCellRenderer();
+
+				{
+					colorBlack.setForeground(Color.BLACK);
+				}
+
+				DefaultTableCellRenderer colorText = new DefaultTableCellRenderer();
+
+				{
+					colorText.setForeground(Color.RED);
+				}
+
+				@Override
+				public TableCellRenderer getCellRenderer(int row, int column) {
+					if (column == 0 || column == 5 || column == 6) {
+						return colorText;
+					} else {
+						return colorBlack;
+					}
+				}
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if (column == 0 || column == 5 || column == 6) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
 			break;
 		case "ITEMS":
 			break;
@@ -137,6 +170,7 @@ public class JTablePanel extends JPanel {
 		return buttonPanel;
 
 	}
+
 
 	public void userJTablePanel() {
 		setBackground(Color.YELLOW);
@@ -176,17 +210,46 @@ public class JTablePanel extends JPanel {
 		try {
 			LadyBugData rsList = new LadyBugData();
 			Tables.ItemList u = new Tables.ItemList();
-			ArrayList<ItemList> arrayList = new ArrayList<ItemList>(rsList.LadyBugItems(userInputInt));
 
 			DefaultTableModel tableModel = new DefaultTableModel(u.getColumnNames(), 0);
-			table = new JTable(tableModel);
+			table = new JTable(tableModel) {
+				DefaultTableCellRenderer colorBlack = new DefaultTableCellRenderer();
 
-			for (int r = 0; r < arrayList.size(); r++) {
-				String ID = Integer.toString(arrayList.get(r).getID());
-				String description = arrayList.get(r).getDescription();
-				String iClass = arrayList.get(r).getiClass();
-				String iOrder = Integer.toString(arrayList.get(r).getiOrder());
-				Object[] data = { ID, description, iClass, iOrder };
+				{
+					colorBlack.setForeground(Color.BLACK);
+				}
+
+				DefaultTableCellRenderer colorText = new DefaultTableCellRenderer();
+
+				{
+					colorText.setForeground(Color.RED);
+				}
+
+				@Override
+				public TableCellRenderer getCellRenderer(int row, int column) {
+					if (column == 0 || column == 1 || column == 2) {
+						return colorText;
+					} else {
+						return colorBlack;
+					}
+				}
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if (column == 0 || column == 1 || column == 2) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
+
+			for (int r = 0; r < rsList.LadyBugItems(userInputInt).size(); r++) {
+				String iClass = rsList.LadyBugItems(userInputInt).get(r).getiClass();
+				String ID = Integer.toString(rsList.LadyBugItems(userInputInt).get(r).getID());
+				String description = rsList.LadyBugItems(userInputInt).get(r).getDescription();
+				String iOrder = Integer.toString(rsList.LadyBugItems(userInputInt).get(r).getiOrder());
+				Object[] data = { ID, iClass, description, iOrder };
 
 				tableModel.addRow(data);
 			}
@@ -244,4 +307,5 @@ public class JTablePanel extends JPanel {
 		}
 
 	}
-}
+
+} // end

@@ -7,6 +7,14 @@ public class ItemList {
 	private 	int iOrder;
 	private 	int dropdownListID;
 	
+	public ItemList() {
+		
+	}
+	
+	public ItemList(int ID, String description) {
+		this.ID = ID;
+		this.description = description;
+	}
 
 	public String[] getColumnNames() {
 		String[] arrays = {"ID", "Description", "Class", "Order"} ;
@@ -47,8 +55,8 @@ public class ItemList {
 	}
 	@Override
 	public String toString() {
-		return "ItemList [ID=" + ID + ", description=" + description + ", iClass=" + iClass + ", iOrder=" + iOrder
-				+ ", dropdownListID=" + dropdownListID + "]";
+		return "ID=" + ID + ", description='" + description  + "', iOrder=" + iOrder
+				+ ", dropdownListID='" + dropdownListID + "' LastModified = NOW() ";
 	}
 
 }

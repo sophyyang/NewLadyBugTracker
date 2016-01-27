@@ -49,12 +49,13 @@ public class LadyBugData {
 
 		return out;
 	}
-	
-public String currentDateTimeToString() {
-	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	LocalDateTime now = LocalDateTime.now();
-	return now.toString();
-}
+
+	public String currentDateTimeToString() {
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		return now.toString();
+	}
 
 	public void makeConnection() {
 		String url = "jdbc:mysql://localhost/ladybugtracker";
@@ -65,7 +66,7 @@ public String currentDateTimeToString() {
 
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection(url, user, password);
-			//System.out.println("Connection made");
+			// System.out.println("Connection made");
 
 		} catch (Exception ex) {
 			Logger lgr = Logger.getLogger(LadyBugData.class.getName());
@@ -75,16 +76,14 @@ public String currentDateTimeToString() {
 		}
 
 	}
-	
-	
-	
+
 	public ArrayList<user> LadyBugUser() {
- 		return getUserList(" ");
+		return getUserList(" ");
 	}
 
 	public ArrayList<user> LadyBugUser(String ID) {
-		String sqlWhereStr = " WHERE UserID = " + ID;		
- 		return getUserList(sqlWhereStr);
+		String sqlWhereStr = " WHERE UserID = " + ID;
+		return getUserList(sqlWhereStr);
 	}
 
 	public ArrayList<user> getUserList(String sqlWhereStr) {
@@ -126,7 +125,6 @@ public String currentDateTimeToString() {
 
 		return arrayList;
 	}
-	
 
 	public ArrayList<ItemList> LadyBugItems() throws SQLException {
 		return GetItemsList(" >= 0 ");
@@ -135,7 +133,7 @@ public String currentDateTimeToString() {
 	public ArrayList<ItemList> LadyBugItems(int inputType) throws SQLException {
 		return GetItemsList(" = " + inputType);
 	}
-	
+
 	public ArrayList<ItemList> LadyBugItems(String inputType) throws SQLException {
 		int results = 2;
 		switch (inputType.toUpperCase()) {
@@ -150,14 +148,14 @@ public String currentDateTimeToString() {
 			break;
 
 		}
-		return GetItemsList(" = " + results);	
+		return GetItemsList(" = " + results);
 	}
 
 	public ArrayList<ItemList> LadyBugItems(int inputType, String inputID) throws SQLException {
 		return GetItemsList(" = " + inputType + " AND ID = " + inputID);
 	}
 
-	public ArrayList<ItemList> LadyBugItems(String inputType,  String inputID)  {
+	public ArrayList<ItemList> LadyBugItems(String inputType, String inputID) {
 		int results = 2;
 		switch (inputType.toUpperCase()) {
 		case "STATUS":
@@ -211,7 +209,7 @@ public String currentDateTimeToString() {
 	public ArrayList<dropdownitems> LadyBugDropDownList() {
 		return LadyBugDropDownList("none");
 	}
-	
+
 	public ArrayList<dropdownitems> LadyBugDropDownList(String ID) {
 		ArrayList<dropdownitems> arrayList = new ArrayList<dropdownitems>();
 		try {
@@ -251,6 +249,92 @@ public String currentDateTimeToString() {
 		}
 
 		return arrayList;
+	}
+
+	public void updateItem(ItemList i) {
+		makeConnection();
+		try {
+			String q = "UPDATE dropdownitems SET ";
+			q += " ID = ";
+			q += i.getID() + ", ";
+			q += " DropdownListID = ";
+			q += i.getDropdownListID() + ", ";
+			q += " Description = ";
+			q += "'" + i.getDescription() + "', ";
+			q += " iOrder = ";
+			q += i.getiOrder() + ", " ;
+			q += " LastModified = NOW()";
+ 			st = con.createStatement();
+			st.executeUpdate(q);
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+	}
+
+
+	public void insertNewItem(ItemList i) {
+		makeConnection();
+		try {
+			String q = "insert into dropdownitems";
+			q += "( ID, DropdownListID, Description, iOrder )";
+			q += " values (";
+			q += i.getID() + ", ";
+			q += i.getDropdownListID() + ", ";
+			q += "'" + i.getDescription() + "', ";
+			q += i.getiOrder() ;
+			q += ")";
+			st = con.createStatement();
+			st.executeUpdate(q);
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+	}
+
+	public void deleteItem(ItemList i) {
+		makeConnection();
+		try {
+			String q = "delete dropdownitems where ID = " + i.getID();
+			st = con.createStatement();
+			st.executeUpdate(q);
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
 	}
 
 }

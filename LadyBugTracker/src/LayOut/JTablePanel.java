@@ -40,6 +40,7 @@ public class JTablePanel extends JPanel {
 	int userInputInt;
 	String selectedID;
 	String userActionStr;
+	LadyBugData rsList = new LadyBugData();
 
 	// Constructor
 	public JTablePanel() {
@@ -87,7 +88,7 @@ public class JTablePanel extends JPanel {
 
 	public JScrollPane buildTable() {
 
-		LadyBugData rsList = new LadyBugData();
+//		LadyBugData rsList = new LadyBugData();
 
 		switch (userInputStr) {
 		case "USER":
@@ -170,7 +171,6 @@ public class JTablePanel extends JPanel {
 		return buttonPanel;
 
 	}
-
 
 	public void userJTablePanel() {
 		setBackground(Color.YELLOW);
@@ -284,15 +284,24 @@ public class JTablePanel extends JPanel {
 				revalidate();
 				newPanel.repaint();
 
+			} else if (e.getSource() == editB) {
+//				String tempStore = store.getSelectedItem().toString();
+//				String tempItem = item.getText();				
+//				ItemList t = new ItemList(tempStore, tempItem);
+//				itemDAO.insertNewItem(t);				
+//				item.setText("");
+				
+				
+
+				System.out.println("Add new item to database");
+
 			} else if (table.getSelectedRow() >= 0) {
 				selectedID = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
 
 				if (e.getSource() == detailB) {
 					userActionStr = "DETAILB";
-				} else if (e.getSource() == deleteB) {
-					userActionStr = "DELETEB";
 				} else {
-					userActionStr = "EDITB";
+					userActionStr = "DELETEB";
 				}
 
 				removeAll();
@@ -305,6 +314,47 @@ public class JTablePanel extends JPanel {
 				JOptionPane.showMessageDialog(null, "Please select a record to continue");
 			}
 		}
+
+	}
+
+	public void processEdit() {
+		String sqlStr = "UPDATE ";
+		String sqlStr1 = "";
+		String id = "";
+		String iOrder ="";
+		
+		switch (userInputInt) {
+		case 0:
+			sqlStr += " user SET ";
+ 			break;
+		default:
+			sqlStr += " dropdownitems SET ";
+ 			break;
+		}
+	
+		for (int row = 0; row < table.getRowCount(); row++) {
+			id = table.getValueAt(row, 0).toString().trim();
+			
+			iOrder = table.getValueAt(0, 3).toString().trim();
+			
+			sqlStr1 = sqlStr;
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			sqlStr1 += " ";
+			
+			sqlStr1 +=  "  WHERE ID = " + id;
+		
+		}
+
+
+	
+		
+	
 
 	}
 

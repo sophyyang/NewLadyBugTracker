@@ -56,6 +56,10 @@ public class DetailPanel extends JPanel {
 	final String BACK = "BACK";
 	private String selectedID;
 	private JComboBox itemsDropDown;
+	LadyBugData rsList = new LadyBugData();
+	private final int statusNo = 1;
+	private final int roleNo = 2;
+	private final int priorityNo = 3;
 
 	public DetailPanel() {
 		userInputStr = "USER";
@@ -117,7 +121,7 @@ public class DetailPanel extends JPanel {
 
 	public void buildDetail() {
 		setLayout(new BorderLayout());
-		itemsDropDown = new JComboBox(this.buildDropDownArray(2));
+		itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
 		//buildComboBox(2); //build role JComboBox. this one not working
 		retriveRecrod();
 
@@ -204,29 +208,29 @@ public class DetailPanel extends JPanel {
 		setVisible(true);
 	}
 
-	public Object[] buildDropDownArray(int input)  {
-		LadyBugData rsList = new LadyBugData();
-		Object[] outArray = null;
-		try {
-			outArray = new String[rsList.LadyBugItems(input).size()];
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			for (int r = 0; r < rsList.LadyBugItems(input).size(); r++) {
-				outArray[r] = rsList.LadyBugItems(input).get(r).getDescription();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return outArray;
-	}
-
+//	public Object[] buildDropDownArray(int input)  {
+////		LadyBugData rsList = new LadyBugData();
+//		Object[] outArray = null;
+//		try {
+//			outArray = new String[rsList.LadyBugItems(input).size()];
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			for (int r = 0; r < rsList.LadyBugItems(input).size(); r++) {
+//				outArray[r] = rsList.LadyBugItems(input).get(r).getDescription();
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return outArray;
+//	}
+//
 
 	public void retriveRecrod() {
-		LadyBugData rsList = new LadyBugData();
+//		LadyBugData rsList = new LadyBugData();
 
 		if (userInputInt == 0) { //user table
 			ArrayList<Tables.user> arrayList = new ArrayList<Tables.user>(rsList.LadyBugUser(selectedID));
@@ -270,19 +274,6 @@ public class DetailPanel extends JPanel {
 				add(newPanel);
 				System.out.println("Done added");
 				revalidate();
-
-				// newPanel.repaint();
-				// System.out.println(store.getSelectedItem());
-				// String tempStore = store.getSelectedItem().toString();
-				//
-				// String tempItem = item.getText();
-				//
-				// ListItem t = new ListItem(tempStore, tempItem);
-				// itemDAO.insertNewItem(t);
-				//
-				// item.setText("");
-				//
-				// System.out.println("Add new item to database");
 			}
 
 			if (e.getSource() == backB) {

@@ -76,6 +76,25 @@ public class LadyBugData {
 		}
 
 	}
+	
+	public Object[] buildDropDownArray(int input)  {
+ 		Object[] outArray = null;
+		try {
+			outArray = new String[this.LadyBugItems(input).size()];
+		} catch (SQLException e) {
+ 			e.printStackTrace();
+		}
+		try {
+			for (int r = 0; r < this.LadyBugItems(input).size(); r++) {
+				outArray[r] = this.LadyBugItems(input).get(r).getDescription();
+			}
+		} catch (SQLException e) {
+ 			e.printStackTrace();
+		}
+		return outArray;
+	}
+
+
 
 	public ArrayList<user> LadyBugUser() {
 		return getUserList(" ");
@@ -177,7 +196,6 @@ public class LadyBugData {
 		try {
 			makeConnection();
 			String q = itemsSqlStr + inputType + ") ORDER BY dropdownListID, iOrder";
-			System.out.println(q);
 			st = con.createStatement();
 			rs = st.executeQuery(q);
 			while (rs.next()) {
@@ -284,9 +302,8 @@ public class LadyBugData {
 		makeConnection();
 		try {
 			String q = "insert into dropdownitems";
-			q += "( ID, DropdownListID, Description, iOrder )";
+			q += "( DropdownListID, Description, iOrder )";
 			q += " values (";
-			q += i.getID() + ", ";
 			q += i.getDropdownListID() + ", ";
 			q += "'" + i.getDescription() + "', ";
 			q += i.getiOrder() ;
@@ -338,8 +355,8 @@ public class LadyBugData {
 		makeConnection();
 		try {
 			String q = "UPDATE user SET ";
-			q += " FirstName = '" + i.getFirstName().trim() + ", " ;
-			q += " LastName = " + i.getLastName().trim() + "', ";
+			q += " FirstName = '" + i.getFirstName().trim() + "', " ;
+			q += " LastName = '" + i.getLastName().trim() + "', ";
 			q += " eMailAdd = '" + i.geteMailAdd() + "', ";
 			q += " RoleID = " + i.getRoleID() + ", " ;
 			q += " LastModified = NOW() ";
@@ -363,5 +380,59 @@ public class LadyBugData {
 
 	}
 
+	public void insertNewUser(user i) {
+		makeConnection();
+		try {
+			String q = "insert into user";
+			q += "( FirstName, LastName, eMailAdd, RoleID )";
+			q += " values ('";
+			q += i.getFirstName() + "', '";
+			q += i.getLastName() + "', ";
+			q += "'" + i.geteMailAdd() + "', ";
+			q += i.getRoleID() ;
+			q += ")";
+			st = con.createStatement();
+			st.executeUpdate(q);
 
-}
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+	}
+
+	public void deleteUser(user i) {
+		makeConnection();
+		try {
+			String q = "delete user where ID = " + i.getUserID();
+			st = con.createStatement();
+			st.executeUpdate(q);
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+	}
+	
+	
+
+} //end

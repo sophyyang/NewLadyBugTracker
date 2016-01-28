@@ -36,14 +36,18 @@ public class JTablePanel extends JPanel {
 	private JButton editB = new JButton("Submit Edit");
 	private JButton deleteB = new JButton("Delete");
 	private JButton detailB = new JButton("List Detail");
-	String userInputStr;
-	int userInputInt;
-	String selectedID;
-	String userActionStr;
-	LadyBugData rsList = new LadyBugData();
-	Tables.user u = new Tables.user();
-	Tables.ItemList itemList = new Tables.ItemList();
-	DefaultTableModel tableModel;
+	private String userInputStr;
+	private int userInputInt;
+	private String selectedID;
+	private String userActionStr;
+	private LadyBugData rsList = new LadyBugData();
+	private Tables.user u = new Tables.user();
+	private Tables.ItemList itemList = new Tables.ItemList();
+	private DefaultTableModel tableModel;
+	private JComboBox itemsDropDown;
+	private final int statusNo = 1;
+	private final int roleNo = 2;
+	private final int priorityNo = 3;
 
 	// Constructor
 	public JTablePanel() {
@@ -94,6 +98,7 @@ public class JTablePanel extends JPanel {
 		case "USER":
 			String columnNames[] = u.getColumnNames();
 			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
+			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
 			for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
 				dataValues[r][0] = Integer.toString(rsList.LadyBugUser().get(r).getUserID());
 				dataValues[r][1] = rsList.LadyBugUser().get(r).getFirstName();
@@ -287,11 +292,9 @@ public class JTablePanel extends JPanel {
 						String lN = table.getModel().getValueAt(table.getSelectedRow(), 2).toString();
 						String eMail = table.getModel().getValueAt(table.getSelectedRow(), 3).toString();
 						String roleDesc = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
- 						u = new user(id, fN,lN, eMail );
- 						u.setRoleID(roleDesc);
- 						rsList.updateUser(u);
-  						
-						System.out.println("we are in editB " + id + ": selected " + selectedID + " set to new value:");
+						u = new user(id, fN, lN, eMail);
+						u.setRoleID(roleDesc);
+						rsList.updateUser(u);
 					} else {
 						int iOrder = Integer
 								.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());

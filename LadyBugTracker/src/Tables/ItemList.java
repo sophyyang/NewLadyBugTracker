@@ -32,7 +32,7 @@ public class ItemList {
 	}
 
 	public String[] getColumnNames() {
-		String[] arrays = {"ID", "Description", "Class", "Order"} ;
+		String[] arrays = {"ID", "Class", "Description", "Order"} ;
 		return arrays;
 	}
 

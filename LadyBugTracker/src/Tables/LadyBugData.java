@@ -280,8 +280,7 @@ public class LadyBugData {
 			q += " WHERE ID = " + i.getID();
  			st = con.createStatement();
 			st.executeUpdate(q);
-			System.out.println("Just update id" + i.getID() + " order to " + i.getiOrder());
-			if (rs != null) {
+ 			if (rs != null) {
 				rs.close();
 			}
 			if (st != null) {
@@ -363,7 +362,6 @@ public class LadyBugData {
 			q += " WHERE UserID = " + i.getUserID();
  			st = con.createStatement();
 			st.executeUpdate(q);
-			System.out.println("Just update userid" + i.getUserID()) ;
 			if (rs != null) {
 				rs.close();
 			}
@@ -393,6 +391,7 @@ public class LadyBugData {
 			q += ")";
 			st = con.createStatement();
 			st.executeUpdate(q);
+		 
 
 			if (rs != null) {
 				rs.close();
@@ -413,9 +412,10 @@ public class LadyBugData {
 	public void deleteUser(user i) {
 		makeConnection();
 		try {
-			String q = "delete user where ID = " + i.getUserID();
+			String q = "delete from user where UserID = " + i.getUserID();
+			System.out.println("delete query: " + q);
 			st = con.createStatement();
-			st.executeUpdate(q);
+			st.executeQuery(q);
 
 			if (rs != null) {
 				rs.close();
@@ -428,7 +428,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("Error with table or data " + e.getMessage());
 		}
 
 	}

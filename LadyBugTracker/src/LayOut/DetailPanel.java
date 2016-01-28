@@ -26,16 +26,16 @@ public class DetailPanel extends JPanel {
 	private JLabel idL = new JLabel("ID: ");
 	private JLabel idT = new JLabel("");
 	private JLabel classL = new JLabel("");
-	private JLabel descL = new  JLabel("  Desciption: ",SwingConstants.RIGHT);
+	private JLabel descL = new JLabel("  Desciption: ", SwingConstants.RIGHT);
 	private JTextField descT = new JTextField(20);
-	private JLabel orderL = new JLabel("       Order: ",SwingConstants.RIGHT);
+	private JLabel orderL = new JLabel("       Order: ", SwingConstants.RIGHT);
 	private JTextField orderT = new JTextField(20);
 	private JLabel fNameL = new JLabel("  First Name:     ");
 	private JLabel lNameL = new JLabel("  Last Name:     ");
-	private JLabel eMailL = new JLabel("eMail:     ",SwingConstants.RIGHT);
-	private JLabel roleL = new JLabel("Role:     ",SwingConstants.RIGHT);
-	private JLabel dateCreatedL = new JLabel("Date Created:     ",SwingConstants.RIGHT);
-	private JLabel lastModifiedL = new JLabel("Last Modified:     ",SwingConstants.RIGHT);
+	private JLabel eMailL = new JLabel("eMail:     ", SwingConstants.RIGHT);
+	private JLabel roleL = new JLabel("Role:     ", SwingConstants.RIGHT);
+	private JLabel dateCreatedL = new JLabel("Date Created:     ", SwingConstants.RIGHT);
+	private JLabel lastModifiedL = new JLabel("Last Modified:     ", SwingConstants.RIGHT);
 	private JLabel dateCreatedT = new JLabel();
 	private JLabel lastModifiedT = new JLabel();
 	private JTextField fNameT = new JTextField(20);
@@ -44,11 +44,11 @@ public class DetailPanel extends JPanel {
 	private JTextField roleT = new JTextField(10);
 	private JButton submitB = new JButton("Submit");
 	private JButton backB = new JButton("Back");
-	String userAction;
-	String userInputStr;
-	int userInputInt;
-	int iWidth = 600;
-	int iHight = 500;
+	private String userAction;
+	private String userInputStr;
+	private int userInputInt;
+	private int iWidth = 600;
+	private int iHight = 500;
 	final String ADDB = "ADDB";
 	final String EDITB = "EDITB";
 	final String DELETEB = "DELETEB";
@@ -122,7 +122,6 @@ public class DetailPanel extends JPanel {
 	public void buildDetail() {
 		setLayout(new BorderLayout());
 		itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
-		//buildComboBox(2); //build role JComboBox. this one not working
 		retriveRecrod();
 
 		JPanel topP = new JPanel();
@@ -163,10 +162,10 @@ public class DetailPanel extends JPanel {
 				break;
 			case EDITB:
 				centerP.add(itemsDropDown);
-			break;
-				default:
-					centerP.add(roleT);
-				break;	
+				break;
+			default:
+				centerP.add(roleT);
+				break;
 			}
 			centerP.add(dateCreatedL);
 			centerP.add(dateCreatedT);
@@ -176,22 +175,22 @@ public class DetailPanel extends JPanel {
 		default:
 			centerP.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
-			c.gridx =0;
-			c.gridy =0;
+			c.gridx = 0;
+			c.gridy = 0;
 			c.gridwidth = 1;
-			centerP.add(descL,c);
-			c.gridx =1;
-			c.gridy =0;
+			centerP.add(descL, c);
+			c.gridx = 1;
+			c.gridy = 0;
 			c.gridwidth = 2;
-			centerP.add(descT,c);
-			c.gridx =0;
-			c.gridy =1;
+			centerP.add(descT, c);
+			c.gridx = 0;
+			c.gridy = 1;
 			c.gridwidth = 1;
-			centerP.add(orderL,c);
-			c.gridx =1;
-			c.gridy =1;
+			centerP.add(orderL, c);
+			c.gridx = 1;
+			c.gridy = 1;
 			c.gridwidth = 2;
-			centerP.add(orderT,c);
+			centerP.add(orderT, c);
 			break;
 		}
 
@@ -208,31 +207,8 @@ public class DetailPanel extends JPanel {
 		setVisible(true);
 	}
 
-//	public Object[] buildDropDownArray(int input)  {
-////		LadyBugData rsList = new LadyBugData();
-//		Object[] outArray = null;
-//		try {
-//			outArray = new String[rsList.LadyBugItems(input).size()];
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			for (int r = 0; r < rsList.LadyBugItems(input).size(); r++) {
-//				outArray[r] = rsList.LadyBugItems(input).get(r).getDescription();
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return outArray;
-//	}
-//
-
 	public void retriveRecrod() {
-//		LadyBugData rsList = new LadyBugData();
-
-		if (userInputInt == 0) { //user table
+		if (userInputInt == 0) { // user table
 			ArrayList<Tables.user> arrayList = new ArrayList<Tables.user>(rsList.LadyBugUser(selectedID));
 			if (arrayList.size() == 1) {
 				this.itemsDropDown.setSelectedItem(arrayList.get(0).getRoleDescription());
@@ -247,7 +223,7 @@ public class DetailPanel extends JPanel {
 				dateCreatedT.setText(rsList.currentDateTimeToString());
 				lastModifiedT.setText(rsList.currentDateTimeToString());
 			}
-		} else { //all other items tables
+		} else { // all other items tables
 			ArrayList<Tables.dropdownitems> arrayList = new ArrayList<Tables.dropdownitems>(
 					rsList.LadyBugDropDownList(selectedID));
 			if (arrayList.size() == 1) {
@@ -266,13 +242,32 @@ public class DetailPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			if (e.getSource() == submitB) {
+			if (e.getSource() == submitB) { // Add new record
+
+				if (userAction.equals(ADDB)) {
+					// userInputInt
+					switch (userInputInt) {
+					case 0:
+						Tables.user u = new Tables.user();
+						u.setFirstName(fNameT.getText());
+						u.setLastName(lNameT.getText());
+						u.seteMailAdd(eMailT.getText());
+						u.setRoleID(itemsDropDown.getSelectedItem().toString().trim());
+						rsList.insertNewUser(u);
+						break;
+					default:
+						Tables.ItemList i = new Tables.ItemList();
+						i.setiOrder(Integer.parseInt(orderT.getText()));
+						i.setDescription(descT.getText());
+						i.setDropdownListID(userInputInt);
+						rsList.insertNewItem(i);
+						break;
+					}
+				}
+
 				removeAll();
-				System.out.println("remove all");
 				JTablePanel newPanel = new JTablePanel(userInputStr);
-				System.out.println("will add new Pnael");
 				add(newPanel);
-				System.out.println("Done added");
 				revalidate();
 			}
 
@@ -280,7 +275,7 @@ public class DetailPanel extends JPanel {
 				removeAll();
 				JTablePanel newPanel = new JTablePanel(userInputStr);
 				add(newPanel);
-				newPanel.setSize(iWidth, iHight);
+				// newPanel.setSize(iWidth, iHight);
 				newPanel.revalidate();
 				newPanel.repaint();
 			}

@@ -307,7 +307,6 @@ public class JTablePanel extends JPanel {
 						itemList = new ItemList(id, iOrder);
 						rsList.updateItemOrder(itemList);
 					}
-					System.out.println("Update item to database");
 
 				} else if (e.getSource() == detailB) {
 					userActionStr = "DETAILB";
@@ -321,7 +320,10 @@ public class JTablePanel extends JPanel {
 					int ans = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete ID" + id);
 					// ans=0 (Yes) and=1 (No) ans=2 (Cancel)
 					if (ans == 0) {
-						JOptionPane.showMessageDialog(null, "ID" + id + " deleted!");
+						u = new Tables.user();
+						u.setUserID(id);
+						rsList.deleteUser(u);
+						JOptionPane.showMessageDialog(null, "ID " + id + " deleted!");
 					}
 				}
 

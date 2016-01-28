@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import Tables.ItemList;
@@ -139,6 +141,9 @@ public class JTablePanel extends JPanel {
 					}
 				}
 			};
+			TableColumn dropdownColumn = table.getColumnModel().getColumn(4);
+			dropdownColumn.setCellEditor(new DefaultCellEditor(itemsDropDown));
+			table.setRowHeight(20);
 			break;
 		case "ITEMS":
 			break;
@@ -254,6 +259,7 @@ public class JTablePanel extends JPanel {
 
 				tableModel.addRow(data);
 			}
+			table.setRowHeight(20);
 
 			scrollPane = new JScrollPane(table);
 			table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));

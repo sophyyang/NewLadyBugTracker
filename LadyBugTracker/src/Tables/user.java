@@ -16,18 +16,40 @@ public class user {
 	private final int roleNo = 2;
 	private final int priorityNo = 3;
 
+	LadyBugData rsList = new LadyBugData();
 
-//	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp createdDate,
-//			Timestamp lastModified) {
-//		this.setUserID(userID);
-//		this.setFirstName(firstName);
-//		this.setLastName(lastName);
-//		this.seteMailAdd(eMailAdd);
-//		this.setRoleID(roleID);
-//		this.setCreatedDate(createdDate);
-//		this.setLastModified(lastModified);
-//
-//	}
+	
+	public user() {
+		
+	}
+
+	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp createdDate,
+			Timestamp lastModified) {
+		this.setUserID(userID);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.seteMailAdd(eMailAdd);
+		this.setRoleID(roleID);
+		this.setCreatedDate(createdDate);
+		this.setLastModified(lastModified);
+	}
+
+	public user(int userID, String firstName, String lastName, String eMailAdd, int roleID, Timestamp lastModified) {
+		this.setUserID(userID);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.seteMailAdd(eMailAdd);
+		this.setRoleID(roleID);
+		this.setLastModified(lastModified);
+	}
+	
+	public user(int userID, String firstName, String lastName, String eMailAdd) {
+		this.setUserID(userID);
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.seteMailAdd(eMailAdd);
+
+	}
 
 	public String[] getColumnNames() {
 		String[] arrays = {"ID", "First Name", "Last Name" , "eMail" , " Role", "Created Date", "Last Modified Date"} ;
@@ -37,7 +59,7 @@ public class user {
 	public String getRoleDescription() {
 		String desc = "";
 		try {
-			LadyBugData rsList = new LadyBugData();
+//			LadyBugData rsList = new LadyBugData();
 			desc=	rsList.GetItemsList(" = " + roleNo + " AND ID = " + getRoleID()).get(0).getDescription();	
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
@@ -48,7 +70,7 @@ public class user {
 	public String getRoleDescription(int input) {
 		String desc = "";
 		try {
-			LadyBugData rsList = new LadyBugData();
+//			LadyBugData rsList = new LadyBugData();
 			desc=	rsList.GetItemsList(" = " + roleNo + " AND ID = " + input).get(0).getDescription();	
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
@@ -61,8 +83,13 @@ public class user {
 		return roleID;
 	}
 
+
 	public void setRoleID(int roleID) {
 		this.roleID = roleID;
+	}
+	
+	public void setRoleID(String roleDesc) {
+		this.roleID = rsList.GetItemsList(" = " + roleNo + " AND dropdownitems.Description = '" + roleDesc.trim() + "' ").get(0).getID();
 	}
 
 	public int getUserID() {

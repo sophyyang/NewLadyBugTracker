@@ -6,6 +6,9 @@ public class ItemList {
 	private 	String iClass;
 	private 	int iOrder;
 	private 	int dropdownListID;
+	private final int statusNo = 1;
+	private final int roleNo = 2;
+	private final int priorityNo = 3;
 	
 	public ItemList() {
 		
@@ -14,6 +17,18 @@ public class ItemList {
 	public ItemList(int ID, String description) {
 		this.ID = ID;
 		this.description = description;
+	}
+	
+	public ItemList(int ID, int iOrder) {
+		this.ID = ID;
+		this.iOrder = iOrder;
+	}
+	
+	public ItemList(int ID, String description, int dropdownListID, int iOrder) {
+		this.ID = ID;
+		this.description = description;
+		this.dropdownListID = dropdownListID;
+		this.iOrder = iOrder;
 	}
 
 	public String[] getColumnNames() {
@@ -53,6 +68,9 @@ public class ItemList {
 	public void setDropdownListID(int dropdownListID) {
 		this.dropdownListID = dropdownListID;
 	}
+	
+
+	
 	@Override
 	public String toString() {
 		return "ID=" + ID + ", description='" + description  + "', iOrder=" + iOrder

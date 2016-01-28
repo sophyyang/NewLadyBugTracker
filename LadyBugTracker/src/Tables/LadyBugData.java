@@ -177,6 +177,7 @@ public class LadyBugData {
 		try {
 			makeConnection();
 			String q = itemsSqlStr + inputType + ") ORDER BY dropdownListID, iOrder";
+			System.out.println(q);
 			st = con.createStatement();
 			rs = st.executeQuery(q);
 			while (rs.next()) {
@@ -215,7 +216,7 @@ public class LadyBugData {
 		try {
 			String whereSQLstr = "";
 			if (!ID.equals("none")) {
-				whereSQLstr = " WHERE ( ID =" + ID + ") ";
+				whereSQLstr = " WHERE ( ID =" + ID + ") ORDER BY iOrder";
 			}
 			makeConnection();
 			String q = dropdownItemStr;
@@ -251,22 +252,17 @@ public class LadyBugData {
 		return arrayList;
 	}
 
-	public void updateItem(ItemList i) {
+	public void updateItemOrder(ItemList i) {
 		makeConnection();
 		try {
 			String q = "UPDATE dropdownitems SET ";
-			q += " ID = ";
-			q += i.getID() + ", ";
-			q += " DropdownListID = ";
-			q += i.getDropdownListID() + ", ";
-			q += " Description = ";
-			q += "'" + i.getDescription() + "', ";
 			q += " iOrder = ";
 			q += i.getiOrder() + ", " ;
-			q += " LastModified = NOW()";
+			q += " LastModified = NOW() ";
+			q += " WHERE ID = " + i.getID();
  			st = con.createStatement();
 			st.executeUpdate(q);
-
+			System.out.println("Just update id" + i.getID() + " order to " + i.getiOrder());
 			if (rs != null) {
 				rs.close();
 			}
@@ -336,5 +332,36 @@ public class LadyBugData {
 		}
 
 	}
+	
+	
+	public void updateUser(user i) {
+		makeConnection();
+		try {
+			String q = "UPDATE user SET ";
+			q += " FirstName = '" + i.getFirstName().trim() + ", " ;
+			q += " LastName = " + i.getLastName().trim() + "', ";
+			q += " eMailAdd = '" + i.geteMailAdd() + "', ";
+			q += " RoleID = " + i.getRoleID() + ", " ;
+			q += " LastModified = NOW() ";
+			q += " WHERE UserID = " + i.getUserID();
+ 			st = con.createStatement();
+			st.executeUpdate(q);
+			System.out.println("Just update userid" + i.getUserID()) ;
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with table or data");
+		}
+
+	}
+
 
 }

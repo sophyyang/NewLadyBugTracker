@@ -41,6 +41,9 @@ public class JTablePanel extends JPanel {
 	String selectedID;
 	String userActionStr;
 	LadyBugData rsList = new LadyBugData();
+	Tables.user u = new Tables.user();
+	Tables.ItemList itemList = new Tables.ItemList();
+	DefaultTableModel tableModel;
 
 	// Constructor
 	public JTablePanel() {
@@ -87,12 +90,8 @@ public class JTablePanel extends JPanel {
 	}
 
 	public JScrollPane buildTable() {
-
-//		LadyBugData rsList = new LadyBugData();
-
 		switch (userInputStr) {
 		case "USER":
-			Tables.user u = new Tables.user();
 			String columnNames[] = u.getColumnNames();
 			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
 			for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
@@ -208,10 +207,7 @@ public class JTablePanel extends JPanel {
 		add(topPanel);
 
 		try {
-			LadyBugData rsList = new LadyBugData();
-			Tables.ItemList u = new Tables.ItemList();
-
-			DefaultTableModel tableModel = new DefaultTableModel(u.getColumnNames(), 0);
+			tableModel = new DefaultTableModel(itemList.getColumnNames(), 0);
 			table = new JTable(tableModel) {
 				DefaultTableCellRenderer colorBlack = new DefaultTableCellRenderer();
 
@@ -273,88 +269,57 @@ public class JTablePanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
 			selectedID = "0";
 
 			if (e.getSource() == addB) {
-
 				removeAll();
 				JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
 				add(newPanel);
 				revalidate();
 				newPanel.repaint();
 
-			} else if (e.getSource() == editB) {
-//				String tempStore = store.getSelectedItem().toString();
-//				String tempItem = item.getText();				
-//				ItemList t = new ItemList(tempStore, tempItem);
-//				itemDAO.insertNewItem(t);				
-//				item.setText("");
-				
-				
-
-				System.out.println("Add new item to database");
-
 			} else if (table.getSelectedRow() >= 0) {
-				selectedID = table.getModel().getValueAt(table.getSelectedRow(), 0).toString();
+				int id = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+				selectedID = Integer.toString(id);
+				if (e.getSource() == editB) {
+					if (userInputStr.equals("USER")) {
+						String fN = table.getModel().getValueAt(table.getSelectedRow(), 1).toString();
+						String lN = table.getModel().getValueAt(table.getSelectedRow(), 2).toString();
+						String eMail = table.getModel().getValueAt(table.getSelectedRow(), 3).toString();
+						String roleDesc = table.getModel().getValueAt(table.getSelectedRow(), 4).toString();
+ 						u = new user(id, fN,lN, eMail );
+ 						u.setRoleID(roleDesc);
+ 						rsList.updateUser(u);
+  						
+						System.out.println("we are in editB " + id + ": selected " + selectedID + " set to new value:");
+					} else {
+						int iOrder = Integer
+								.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+						itemList = new ItemList(id, iOrder);
+						rsList.updateItemOrder(itemList);
+					}
+					System.out.println("Update item to database");
 
-				if (e.getSource() == detailB) {
+				} else if (e.getSource() == detailB) {
 					userActionStr = "DETAILB";
+					removeAll();
+					JPanel newPanel = new DetailPanel(userInputStr, userActionStr, selectedID);
+					add(newPanel);
+					revalidate();
+					newPanel.repaint();
 				} else {
 					userActionStr = "DELETEB";
+					int ans = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete ID" + id);
+					// ans=0 (Yes) and=1 (No) ans=2 (Cancel)
+					if (ans == 0) {
+						JOptionPane.showMessageDialog(null, "ID" + id + " deleted!");
+					}
 				}
-
-				removeAll();
-				JPanel newPanel = new DetailPanel(userInputStr, userActionStr, selectedID);
-				add(newPanel);
-				revalidate();
-				newPanel.repaint();
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select a record to continue");
 			}
 		}
-
-	}
-
-	public void processEdit() {
-		String sqlStr = "UPDATE ";
-		String sqlStr1 = "";
-		String id = "";
-		String iOrder ="";
-		
-		switch (userInputInt) {
-		case 0:
-			sqlStr += " user SET ";
- 			break;
-		default:
-			sqlStr += " dropdownitems SET ";
- 			break;
-		}
-	
-		for (int row = 0; row < table.getRowCount(); row++) {
-			id = table.getValueAt(row, 0).toString().trim();
-			
-			iOrder = table.getValueAt(0, 3).toString().trim();
-			
-			sqlStr1 = sqlStr;
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			sqlStr1 += " ";
-			
-			sqlStr1 +=  "  WHERE ID = " + id;
-		
-		}
-
-
-	
-		
-	
 
 	}
 

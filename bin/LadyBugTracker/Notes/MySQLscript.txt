@@ -1,0 +1,136 @@
+CREATE SCHEMA `ladybugtracker` ;
+
+
+CREATE TABLE `ladybugtracker`.`dropdownlist` (
+  
+`DropdownListID` INT(10) NOT NULL AUTO_INCREMENT,
+  
+`Description` VARCHAR(45) NULL,
+  
+PRIMARY KEY (`DropdownListID`),
+  UNIQUE INDEX `RoleID_UNIQUE` (`DropdownListID` ASC));
+
+CREATE TABLE `ladybugtracker`.`user` (
+  
+`UserID` INT(10) NOT NULL AUTO_INCREMENT,
+
+`FirstName` VARCHAR(45) NULL,
+  
+`LastName` VARCHAR(45) NULL,
+  
+`eMailAdd` VARCHAR(100) NULL,
+  
+`RoleID` INT(10) NULL,
+  
+UNIQUE INDEX `UserID_UNIQUE` (`UserID` ASC),
+  
+PRIMARY KEY (`UserID`));
+ 
+
+CREATE TABLE `ladybugtracker`.`dropdownitems` (
+  
+`ID` INT(10) NOT NULL AUTO_INCREMENT,
+  
+`DropdownListID` INT(10) NOT NULL,
+  
+`Description` VARCHAR(45) NULL,
+  
+`iOrder` INT(3) NULL DEFAULT 0,
+  
+`DateCreated` DATETIME NULL,
+  
+`LastModified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE INDEX `ID_UNIQUE` (`ID` ASC),
+  INDEX `dropdownlistid_idx` (`DropdownListID` ASC),
+  CONSTRAINT `dropdownlistid`
+    
+FOREIGN KEY (`DropdownListID`)
+    
+REFERENCES `ladybugtracker`.`dropdownlist` (`DropdownListID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+CREATE TABLE `ladybugtracker`.`bugticket` (
+  
+`TicketNo` INT(10) NOT NULL AUTO_INCREMENT,
+  
+`UserID` INT(10) NULL,
+  
+`Title` VARCHAR(45) NULL,
+  
+`Description` MEDIUMTEXT NULL,
+  
+`CreatedDate` DATETIME NULL,
+  
+`LastModified` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  
+PRIMARY KEY (`TicketNo`),
+  
+UNIQUE INDEX `TicketNo_UNIQUE` (`TicketNo` ASC),
+  
+INDEX `UserID_idx` (`UserID` ASC),
+  
+CONSTRAINT `UserID`
+    FOREIGN KEY (`UserID`)
+    REFERENCES `ladybugtracker`.`user` (`UserID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE `ladybugtracker`.`history` (
+  
+`HistoryID` INT(10) NOT NULL AUTO_INCREMENT,
+  
+`TicketNo` INT(10) NULL,
+  
+`UserID` INT(10) NULL,
+  
+`StatusID` INT(10) NULL,
+  
+`PriorityID` INT(10) NULL,
+  
+`Description` MEDIUMTEXT NULL,
+  
+`CreatedDate` DATETIME NULL,
+  
+PRIMARY KEY (`HistoryID`),
+  
+UNIQUE INDEX `HistoryID_UNIQUE` (`HistoryID` ASC),
+  
+INDEX `TicketNo_idx` (`TicketNo` ASC),
+  
+CONSTRAINT `TicketNo`
+    FOREIGN KEY (`TicketNo`)
+    REFERENCES `ladybugtracker`.`bugticket` (`TicketNo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+USE `ladybugtracker`;
+CREATE  OR REPLACE VIEW `Status` AS
+select dropdownitems.ID,  dropdownitems.Description ,
+dropdownlist.Description AS 'Class', dropdownitems.iOrder
+from dropdownitems INNER JOIN dropdownlist ON dropdownitems.DropdownListID = dropdownlist.DropdownListID
+
+WHERE dropdownitems.DropdownListID = 1;
+
+USE `ladybugtracker`;
+CREATE  OR REPLACE VIEW `Role` AS
+select dropdownitems.ID,  dropdownitems.Description ,
+dropdownlist.Description AS 'Class', dropdownitems.iOrder
+from dropdownitems INNER JOIN dropdownlist ON dropdownitems.DropdownListID = dropdownlist.DropdownListID
+
+WHERE dropdownitems.DropdownListID = 2;
+
+
+USE `ladybugtracker`;
+CREATE  OR REPLACE VIEW `Priority` AS
+select dropdownitems.ID,  dropdownitems.Description ,
+dropdownlist.Description AS 'Class', dropdownitems.iOrder
+from dropdownitems INNER JOIN dropdownlist ON dropdownitems.DropdownListID = dropdownlist.DropdownListID
+
+WHERE dropdownitems.DropdownListID = 3;
+

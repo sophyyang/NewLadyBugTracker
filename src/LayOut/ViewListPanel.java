@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /*
- * View shopping list
+ * View shopping list aaaa
  * JList on textbox page 413
  */
 

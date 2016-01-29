@@ -412,10 +412,9 @@ public class LadyBugData {
 	public void deleteUser(user i) {
 		makeConnection();
 		try {
-			String q = "delete from user where UserID = " + i.getUserID();
-			System.out.println("delete query: " + q);
+			String q = "delete FROM ladybugtracker.user where UserID = " + i.getUserID();
 			st = con.createStatement();
-			st.executeQuery(q);
+			st.executeUpdate(q);
 
 			if (rs != null) {
 				rs.close();

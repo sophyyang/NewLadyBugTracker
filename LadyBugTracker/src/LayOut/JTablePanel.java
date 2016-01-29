@@ -50,7 +50,7 @@ public class JTablePanel extends JPanel {
 	private final int statusNo = 1;
 	private final int roleNo = 2;
 	private final int priorityNo = 3;
-
+ 
 	// Constructor
 	public JTablePanel() {
 		userInputStr = "USER";
@@ -100,7 +100,7 @@ public class JTablePanel extends JPanel {
 		case "USER":
 			String columnNames[] = u.getColumnNames();
 			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
-			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
+ 			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
 			for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
 				dataValues[r][0] = Integer.toString(rsList.LadyBugUser().get(r).getUserID());
 				dataValues[r][1] = rsList.LadyBugUser().get(r).getFirstName();
@@ -149,11 +149,14 @@ public class JTablePanel extends JPanel {
 			break;
 		}
 
-		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
 		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
 		table.setFillsViewportHeight(true);
+		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
+//		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
+//		table.setFillsViewportHeight(true);
 
 		return scrollPane;
 	}
@@ -320,10 +323,15 @@ public class JTablePanel extends JPanel {
 					int ans = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete ID" + id);
 					// ans=0 (Yes) and=1 (No) ans=2 (Cancel)
 					if (ans == 0) {
+						int index = table.getSelectedRow();
 						u = new Tables.user();
 						u.setUserID(id);
+ 						rsList.LadyBugUser().remove(index);
 						rsList.deleteUser(u);
 						JOptionPane.showMessageDialog(null, "ID " + id + " deleted!");
+						
+						removeAll();
+						userJTablePanel();
 					}
 				}
 

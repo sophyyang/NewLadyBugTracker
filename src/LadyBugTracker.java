@@ -5,7 +5,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import LayOut.MainPanel;
-
+/*
+ * GitHut URI
+ * https://github.com/sophyyang/NewLadyBugTracker.git
+ */
 public class LadyBugTracker {
 
 	public static void main(String[] args) throws IOException {

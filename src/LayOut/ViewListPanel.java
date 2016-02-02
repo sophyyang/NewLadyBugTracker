@@ -13,11 +13,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-
 /*
- * View shopping list
+ * View shopping list aaaa
  * JList on textbox page 413
- * 
  */
 
 public class ViewListPanel extends JPanel {

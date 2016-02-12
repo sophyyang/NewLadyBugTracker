@@ -22,6 +22,7 @@ public class LadyBugTracker {
  		master.setSize((iWidth +200) , (iHight + 300));
 		master.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		master.setVisible(true);
-
+		
+		
 	}
 } 

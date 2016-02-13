@@ -58,8 +58,8 @@ public class LadyBugData {
 	}
 
 	public void makeConnection() {
-		String url = "jdbc:mysql://localhost:3306/ladybugtracker";
-		String password = "goJava7!";
+		String url = "jdbc:mysql://localhost/ladybugtracker";
+		String password = "password";
 		String user = "root";
 
 		try {

@@ -1,23 +1,39 @@
+package LayOut;
+
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// Mary Larsen
+// MARY LARSEN //
 public class BugTicketPanel extends JPanel {
-	//test push
-	String[] PriorityID = { "High", "Medium", "Low" };
-	String[] UserID = { "MLarsen3@dmacc.edu" };
+
+	Container c = getRootPane();
+	Tables.LadyBugData lbdata = new Tables.LadyBugData();	 
+	
+ 	//* UNABLE TO GET TABLE DATA INTO DROPDOWNS; HARD CODED BELOW FOR NOW
+	String[] PriorityID = { "High", "Middle", "Low" };
+	String[] UserID = { "MLarsen3@dmacc.edu", "Test@dmacc.edu" };
 	String TicketNo = "1";
-	String[] StatusID = { "New", "Assigned", "Closed" };
+	String[] StatusID = { "New", "In Progress", "Reassign", "Closed" };
 
 	JLabel ticketNoLabel = new JLabel("Ticket No.");
 	JLabel ticketNo = new JLabel(TicketNo);
@@ -30,16 +46,14 @@ public class BugTicketPanel extends JPanel {
 	JLabel titleLabel = new JLabel("Title");
 	JTextField title = new JTextField(45);
 	JLabel descLabel = new JLabel("Description");
-	JTextField desc = new JTextField(500);
+	JTextField desc = new JTextField(50);
 
 	JButton admin = new JButton("Admin");
 	JButton report = new JButton("Report");
 	JButton submit = new JButton("Submit");
 	JButton logout = new JButton("Logout");
 
-	// Still need to add the connection ?
-	// LadyBugData ladybugdata = new LadyBugData();
-
+	
 	public BugTicketPanel() {
 
 		ButtonListener b = new ButtonListener();
@@ -47,14 +61,12 @@ public class BugTicketPanel extends JPanel {
 		report.addActionListener(b);
 		submit.addActionListener(b);
 		logout.addActionListener(b);
-
+		
+		//* ADD TITLES & TEXT BOXES TO THE SCREEN
 		setLayout(new BorderLayout());
 
-		title.setFont(new Font("Serif", Font.PLAIN, 16));
-		add(title, BorderLayout.NORTH);
-
-		JPanel buttonLabels = new JPanel(new GridLayout(2, 0));
-		JPanel textBoxes = new JPanel(new GridLayout(2, 0));
+		JPanel buttonLabels = new JPanel(new GridLayout(15, 0));
+		JPanel textBoxes = new JPanel(new GridLayout(15, 0));
 
 		buttonLabels.add(ticketNoLabel);
 		textBoxes.add(ticketNo);
@@ -63,7 +75,7 @@ public class BugTicketPanel extends JPanel {
 		buttonLabels.add(priorityLabel);
 		textBoxes.add(priority);
 		buttonLabels.add(statusLabel);
-		buttonLabels.add(status);
+		textBoxes.add(status);
 		buttonLabels.add(titleLabel);
 		textBoxes.add(title);
 		buttonLabels.add(descLabel);
@@ -72,6 +84,7 @@ public class BugTicketPanel extends JPanel {
 		add(buttonLabels, BorderLayout.WEST);
 		add(textBoxes, BorderLayout.CENTER);
 
+		//* ADD BUTTONS TO BOTTOM OF SCREEN
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
@@ -90,20 +103,35 @@ public class BugTicketPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == admin) {
-
+				removeAll();
+				JPanel newPanel = new MainPanel(); 	//* CHANGES TO ADMIN PANEL
+				add(newPanel);
+				revalidate();
+				newPanel.repaint();
+				System.out.println("Admin button selected");
 			}
 
 			if (e.getSource() == report) {
-
+				removeAll();
+				JPanel newPanel = new MainPanel(); 	//* CHANGE TO REPORT PANEL
+				add(newPanel);
+				revalidate();
+				newPanel.repaint();
+				System.out.println("Report button selected");
 			}
 
 			if (e.getSource() == submit) {
 
-				System.out.println("Add new defect ticket to database");
+				System.out.println("Submit button selected.  Add new ticket to database");
 			}
 
 			if (e.getSource() == logout) {
-
+				removeAll();
+				JPanel newPanel = new MainPanel();
+				add(newPanel);
+				revalidate();
+				newPanel.repaint();
+				System.out.println("Logout button selected");
 			}
 
 		}

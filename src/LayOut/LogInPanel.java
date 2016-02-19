@@ -55,7 +55,8 @@ public class LogInPanel extends JPanel {
 			if (e.getSource() == signInB) {
 				String tempItem = eMailT.getText();
 				removeAll();
-				JPanel newPanel = new JTablePanel(1);
+				//JPanel newPanel = new JTablePanel(1);
+				JPanel newPanel = new BugTicketPanel();
 				add(newPanel);
 				revalidate();
 				//newPanel.repaint();

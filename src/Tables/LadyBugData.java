@@ -94,6 +94,17 @@ public class LadyBugData {
 		return outArray;
 	}
 
+	public Object[] buildUserDropDownArray()  {
+ 		Object[] outArray = null;
+		outArray = new String[this.LadyBugUser().size()];
+		for (int r = 0; r < this.LadyBugUser().size(); r++) {
+			outArray[r] = this.LadyBugUser().get(r).getRoleDescription() + " - " +
+					this.LadyBugUser().get(r).getFirstName() + " " + 
+					this.LadyBugUser().get(r).getLastName();
+		}
+		return outArray;
+	}
+
 
 
 	public ArrayList<user> LadyBugUser() {

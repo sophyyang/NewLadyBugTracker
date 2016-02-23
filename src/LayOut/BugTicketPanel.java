@@ -157,11 +157,12 @@ public class BugTicketPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent c) {
-			removeAll();
-			JPanel newPanel = new LogInPanel();
-			add(newPanel);
-			revalidate();
-			newPanel.repaint();
+		//	removeAll();
+		//	JPanel newPanel = new LogInPanel();
+		//	add(newPanel);
+		//	revalidate();
+		//	newPanel.repaint();
+			LogInPanel.BackButton();
 		}
 	}
 

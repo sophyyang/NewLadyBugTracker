@@ -1,6 +1,6 @@
 package LayOut;
 
- import java.awt.GridLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,26 +10,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
- 
-
 public class LogInPanel extends JPanel {
-	
-	 JLabel eMailL = new JLabel("email address:");
-	 JTextField eMailT = new JTextField(50);
-	 JButton signInB = new JButton("Sign In");
-	 JLabel signUpL = new JLabel("New to LayBug?");
-	 JButton signUpB = new JButton("Create an account?");
-	 JButton reportB = new JButton("Run Report");
-	 
-	 
+
+	JLabel eMailL = new JLabel("email address:");
+	JTextField eMailT = new JTextField(50);
+	JButton signInB = new JButton("Sign In");
+	JLabel signUpL = new JLabel("New to LayBug?");
+	JButton signUpB = new JButton("Create an account?");
+	JButton reportB = new JButton("Run Report");
+
 	public LogInPanel() {
-		ButtonListener b = new ButtonListener();
-		signInB.addActionListener(b);
+		SignInButtonListener a = new SignInButtonListener();
+		signInB.addActionListener(a);
+
+		SignUpButtonListener b = new SignUpButtonListener();
 		signUpB.addActionListener(b);
-		reportB.addActionListener(b);
-		
-		JPanel buttonPanel = new JPanel(new GridLayout(6,0));
-		
+
+		RunReportListener c = new RunReportListener();
+		reportB.addActionListener(c);
+
+		JPanel buttonPanel = new JPanel(new GridLayout(6, 0));
+
 		buttonPanel.add(eMailL);
 		buttonPanel.add(eMailT);
 		buttonPanel.add(signInB);
@@ -37,46 +38,50 @@ public class LogInPanel extends JPanel {
 		buttonPanel.add(signUpB);
 		buttonPanel.add(reportB);
 		add(buttonPanel);
-		
 
 	}
-	
-	class ButtonListener implements ActionListener {
+
+	class SignInButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent a) {
+
+			String tempItem = eMailT.getText();
+			removeAll();
+			JPanel newPanel = new BugTicketPanel();
+			add(newPanel);
+			revalidate();
+			// newPanel.repaint();
+		}
+	}
+
+	class SignUpButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent b) {
+
+			String tempItem = eMailT.getText();
+			removeAll();
+			// JPanel newPanel = new JTablePanel(1);
+			JPanel newPanel = new JTabbedPanel();
+			add(newPanel);
+			revalidate();
+			// newPanel.repaint();
+		}
+	}
+
+	class RunReportListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			if (e.getSource() == signUpB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				JPanel newPanel = new JTabbedPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-			if (e.getSource() == signInB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				//JPanel newPanel = new JTablePanel(1);
-				JPanel newPanel = new BugTicketPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-			if (e.getSource() == reportB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				JPanel newPanel = new JTabbedPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-
+			String tempItem = eMailT.getText();
+			removeAll();
+			JPanel newPanel = new JTabbedPanel();
+			add(newPanel);
+			revalidate();
+			// newPanel.repaint();
+		}
 	}
 
-	}
 }
-

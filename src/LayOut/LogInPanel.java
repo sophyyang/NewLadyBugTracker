@@ -17,7 +17,6 @@ public class LogInPanel extends JPanel {
 	JButton signInB = new JButton("Sign In");
 	JLabel signUpL = new JLabel("New to LayBug?");
 	JButton signUpB = new JButton("Create an account?");
-	JButton reportB = new JButton("Run Report");
 
 	public LogInPanel() {
 		SignInButtonListener a = new SignInButtonListener();
@@ -26,8 +25,7 @@ public class LogInPanel extends JPanel {
 		SignUpButtonListener b = new SignUpButtonListener();
 		signUpB.addActionListener(b);
 
-		RunReportListener c = new RunReportListener();
-		reportB.addActionListener(c);
+
 
 		JPanel buttonPanel = new JPanel(new GridLayout(6, 0));
 
@@ -36,7 +34,6 @@ public class LogInPanel extends JPanel {
 		buttonPanel.add(signInB);
 		buttonPanel.add(signUpL);
 		buttonPanel.add(signUpB);
-		buttonPanel.add(reportB);
 		add(buttonPanel);
 
 	}
@@ -70,18 +67,6 @@ public class LogInPanel extends JPanel {
 		}
 	}
 
-	class RunReportListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			String tempItem = eMailT.getText();
-			removeAll();
-			JPanel newPanel = new JTabbedPanel();
-			add(newPanel);
-			revalidate();
-			// newPanel.repaint();
-		}
-	}
 
 }

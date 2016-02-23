@@ -36,6 +36,7 @@ public class JTablePanel extends JPanel {
 	private final int iHight = 500;
 	private JButton addB = new JButton("Add New ");
 	private JButton editB = new JButton("Submit Edit");
+	private JButton backB = new JButton("Back");
 	private JButton deleteB = new JButton("Delete");
 	private JButton detailB = new JButton("List Detail");
 	private String userInputStr;
@@ -229,18 +230,26 @@ public class JTablePanel extends JPanel {
 
 	public JPanel actionButtons() {
 		JPanel buttonPanel = new JPanel();
-		ButtonListener b = new ButtonListener();
-		addB.addActionListener(b);
-		editB.addActionListener(b);
-		deleteB.addActionListener(b);
-		detailB.addActionListener(b);
+
+		AddButtonListener a = new AddButtonListener();
+		addB.addActionListener(a);
+
+		BackButtonListener b = new BackButtonListener();
+		backB.addActionListener(b);
+
+		ButtonListener e = new ButtonListener();
+		editB.addActionListener(e);
+		deleteB.addActionListener(e);
+		detailB.addActionListener(e);
 
 		buttonPanel.add(addB);
+		buttonPanel.add(backB);
 		buttonPanel.add(editB);
 		switch (userInputStr) {
 		case "USER":
 			buttonPanel.add(deleteB);
 			buttonPanel.add(detailB);
+			buttonPanel.add(backB);
 			break;
 		default:
 			break;
@@ -351,14 +360,7 @@ public class JTablePanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			selectedID = "0";
 
-			if (e.getSource() == addB) {
-				removeAll();
-				JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
-				add(newPanel);
-				revalidate();
-				newPanel.repaint();
-
-			} else if (table.getSelectedRow() >= 0) {
+			if (table.getSelectedRow() >= 0) {
 				int id = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 				selectedID = Integer.toString(id);
 				if (e.getSource() == editB) {
@@ -404,6 +406,32 @@ public class JTablePanel extends JPanel {
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select a record to continue");
 			}
+		}
+
+	}
+
+	class AddButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			removeAll();
+			JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
+			add(newPanel);
+			revalidate();
+			newPanel.repaint();
+		}
+	}
+
+	class BackButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			removeAll();
+			JPanel newPanel = new LogInPanel();
+			add(newPanel);
+			revalidate();
+			newPanel.repaint();
+
 		}
 
 	}

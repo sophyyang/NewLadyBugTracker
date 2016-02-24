@@ -19,59 +19,60 @@ import Tables.LadyBugData;
 
 // MARY LARSEN 
 public class BugTicketPanel extends JPanel {
-
+	
 	private final int statusNo = 1;
 	private final int roleNo = 2;
 	private final int priorityNo = 3;
 	private LadyBugData rsList = new LadyBugData();
-
-	// * STILL NEED TO GET TABLE DATA INTO DROPDOWNS; HARD CODED BELOW FOR NOW
+	
+ 	//* STILL NEED TO GET TABLE DATA INTO DROPDOWNS; HARD CODED BELOW FOR NOW
 	String TicketNo = "1";
-	// String[] UserID = { "MLarsen3@dmacc.edu", "Test@dmacc.edu" };
-	// String[] priorityNo = { "High", "Middle", "Low" };
-	// String[] statusNo = { "New", "In Progress", "Reassign", "Closed" };
-
+	//String[] UserID = { "MLarsen3@dmacc.edu", "Test@dmacc.edu" };
+	//String[] priorityNo = { "High", "Middle", "Low" };
+	//String[] statusNo = { "New", "In Progress", "Reassign", "Closed" };
+	
 	JLabel ticketNoLabel = new JLabel("Ticket No.");
 	JLabel ticketNo = new JLabel(TicketNo);
-
+	
 	JLabel userIdLabel = new JLabel("User ID");
 	JComboBox userId = new JComboBox();
-
+	
 	JLabel priorityLabel = new JLabel("Priority");
 	JComboBox priority = new JComboBox();
-
+	
 	JLabel statusLabel = new JLabel("Status");
 	JComboBox status = new JComboBox();
-
+	
 	JLabel titleLabel = new JLabel("Title");
 	JTextField title = new JTextField(45);
-
+	
 	JLabel descLabel = new JLabel("Description");
 	JTextField desc = new JTextField(50);
 
+	
 	JButton admin = new JButton("Admin");
 	JButton report = new JButton("Report");
 	JButton submit = new JButton("Submit");
 	JButton logout = new JButton("Logout");
 	JButton reportB = new JButton("Run Report");
-
+	
 	public BugTicketPanel() {
-		// change this one later to userid and user after Sophys changes are in
+		//change this one later to userid and user after Sophys changes are in
 		userId = new JComboBox(rsList.buildDropDownArray(statusNo));
-		// itemsDropDown = new JComboBox(rsList.buildUserDropDownArray(roleNo));
+		//itemsDropDown = new JComboBox(rsList.buildUserDropDownArray(roleNo));
 		status = new JComboBox(rsList.buildDropDownArray(statusNo));
 		priority = new JComboBox(rsList.buildDropDownArray(priorityNo));
-
+		
 		ButtonListener b = new ButtonListener();
 		admin.addActionListener(b);
 		report.addActionListener(b);
 		submit.addActionListener(b);
 		logout.addActionListener(b);
-
+		
+		//* ADD TITLES & TEXT BOXES TO THE SCREEN
 		RunReportListener r = new RunReportListener();
 		reportB.addActionListener(r);
-
-		// * ADD TITLES & TEXT BOXES TO THE SCREEN
+		
 		setLayout(new BorderLayout());
 
 		JPanel buttonLabels = new JPanel(new GridLayout(15, 0));
@@ -93,7 +94,7 @@ public class BugTicketPanel extends JPanel {
 		add(buttonLabels, BorderLayout.WEST);
 		add(textBoxes, BorderLayout.CENTER);
 
-		// * ADD BUTTONS TO BOTTOM OF SCREEN
+		//* ADD BUTTONS TO BOTTOM OF SCREEN
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
@@ -114,7 +115,7 @@ public class BugTicketPanel extends JPanel {
 
 			if (e.getSource() == admin) {
 				removeAll();
-				JPanel newPanel = new JTabbedPanel();
+				JPanel newPanel = new JTabbedPanel(); 	 
 				add(newPanel);
 				revalidate();
 				newPanel.repaint();
@@ -123,7 +124,7 @@ public class BugTicketPanel extends JPanel {
 
 			if (e.getSource() == report) {
 				removeAll();
-				JPanel newPanel = new MainPanel(); // * CHANGE TO REPORT PANEL
+				JPanel newPanel = new MainPanel(); 	//* CHANGE TO REPORT PANEL
 				add(newPanel);
 				revalidate();
 				newPanel.repaint();
@@ -147,7 +148,6 @@ public class BugTicketPanel extends JPanel {
 		}
 
 	}
-
 
 	class RunReportListener implements ActionListener {
 

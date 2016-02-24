@@ -27,35 +27,34 @@ public class LogInPanel extends JPanel {
 	private JButton signUpB;
 
 	public LogInPanel() {
-		JPanel panel = new JPanel(new GridLayout(6,0));
-		
+		JPanel panel = new JPanel(new GridLayout(6, 0));
+
 		eMailL = new JLabel("Email Address: ");
 		panel.add(eMailL);
-		
+
 		eMailT = new JTextField(50);
 		panel.add(eMailT);
-		
+
 		passwordL = new JLabel("Password: ");
 		panel.add(passwordL);
-		
+
 		passwordT = new JTextField(50);
 		panel.add(passwordT);
-		
+
 		panel.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
-		
 		signInB = new JButton("Sign In");
 		SignInButtonListener a = new SignInButtonListener();
 		signInB.addActionListener(a);
-		
+
 		signUpB = new JButton("Create an account?");
 		SignUpButtonListener b = new SignUpButtonListener();
 		signUpB.addActionListener(b);
-		
+
 		JPanel bp = new JPanel();
 		bp.add(signInB);
 		bp.add(signUpB);
-		
+
 		add(panel);
 		add(bp);
 
@@ -88,14 +87,6 @@ public class LogInPanel extends JPanel {
 			revalidate();
 			// newPanel.repaint();
 		}
-	}
-	
-	static void BackButton (){
-		removeAll();
-		JPanel newPanel = new LogInPanel();
-		add(newPanel);
-		revalidate();
-		newPanel.repaint();
 	}
 
 }

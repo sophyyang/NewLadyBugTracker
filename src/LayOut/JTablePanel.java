@@ -36,7 +36,6 @@ public class JTablePanel extends JPanel {
 	private final int iHight = 500;
 	private JButton addB = new JButton("Add New ");
 	private JButton editB = new JButton("Submit Edit");
-	private JButton backB = new JButton("Back");
 	private JButton deleteB = new JButton("Delete");
 	private JButton detailB = new JButton("List Detail");
 	private String userInputStr;
@@ -234,22 +233,17 @@ public class JTablePanel extends JPanel {
 		AddButtonListener a = new AddButtonListener();
 		addB.addActionListener(a);
 
-		BackButtonListener b = new BackButtonListener();
-		backB.addActionListener(b);
-
 		ButtonListener e = new ButtonListener();
 		editB.addActionListener(e);
 		deleteB.addActionListener(e);
 		detailB.addActionListener(e);
 
 		buttonPanel.add(addB);
-		buttonPanel.add(backB);
 		buttonPanel.add(editB);
 		switch (userInputStr) {
 		case "USER":
 			buttonPanel.add(deleteB);
 			buttonPanel.add(detailB);
-			buttonPanel.add(backB);
 			break;
 		default:
 			break;
@@ -422,18 +416,5 @@ public class JTablePanel extends JPanel {
 		}
 	}
 
-	class BackButtonListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			removeAll();
-			JPanel newPanel = new LogInPanel();
-			add(newPanel);
-			revalidate();
-			newPanel.repaint();
-
-		}
-
-	}
 
 } // end

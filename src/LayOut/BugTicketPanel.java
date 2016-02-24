@@ -53,7 +53,6 @@ public class BugTicketPanel extends JPanel {
 	JButton report = new JButton("Report");
 	JButton submit = new JButton("Submit");
 	JButton logout = new JButton("Logout");
-	JButton back = new JButton("Back");
 	JButton reportB = new JButton("Run Report");
 
 	public BugTicketPanel() {
@@ -68,9 +67,6 @@ public class BugTicketPanel extends JPanel {
 		report.addActionListener(b);
 		submit.addActionListener(b);
 		logout.addActionListener(b);
-
-		BackButtonListener c = new BackButtonListener();
-		back.addActionListener(c);
 
 		RunReportListener r = new RunReportListener();
 		reportB.addActionListener(r);
@@ -105,7 +101,6 @@ public class BugTicketPanel extends JPanel {
 		buttonPanel.add(report);
 		buttonPanel.add(submit);
 		buttonPanel.add(logout);
-		buttonPanel.add(back);
 		buttonPanel.add(reportB);
 
 		add(buttonPanel, BorderLayout.SOUTH);
@@ -153,18 +148,6 @@ public class BugTicketPanel extends JPanel {
 
 	}
 
-	class BackButtonListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent c) {
-		//	removeAll();
-		//	JPanel newPanel = new LogInPanel();
-		//	add(newPanel);
-		//	revalidate();
-		//	newPanel.repaint();
-			LogInPanel.BackButton();
-		}
-	}
 
 	class RunReportListener implements ActionListener {
 

@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 
 public class MainPanel extends JPanel{
 
+	private JPanel logInP = new LogInPanel();
 	
 	public MainPanel() {
 
-		JPanel topP = new TopPanel();
-		JPanel logInP = new LogInPanel();
+		JPanel topP = new TopPanel(this);
 		
 		setLayout(new BorderLayout());
 		
@@ -21,5 +21,12 @@ public class MainPanel extends JPanel{
 		 		
 	}
 	
+	public void HomeButton (){
+		remove(logInP);
+		logInP = new LogInPanel();
+		add(logInP, BorderLayout.CENTER);
+		revalidate();
+		repaint();
+	}
 
 }

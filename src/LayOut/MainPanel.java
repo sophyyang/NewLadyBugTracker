@@ -19,7 +19,6 @@ public class MainPanel extends JPanel{
 		add(topP, BorderLayout.NORTH);
 		add(logInP, BorderLayout.CENTER);
 		 		
-		
 	}
 	
 	public void HomeButton (){

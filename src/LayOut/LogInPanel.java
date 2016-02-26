@@ -1,6 +1,12 @@
+//Katie Sullivan
+
 package LayOut;
 
- import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,74 +15,78 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
- 
+import javax.swing.border.LineBorder;
 
 public class LogInPanel extends JPanel {
-	
-	 JLabel eMailL = new JLabel("email address:");
-	 JTextField eMailT = new JTextField(50);
-	 JButton signInB = new JButton("Sign In");
-	 JLabel signUpL = new JLabel("New to LayBug?");
-	 JButton signUpB = new JButton("Create an account?");
-	 JButton reportB = new JButton("Run Report");
-	 
-	 
+
+	private JLabel eMailL;
+	private JTextField eMailT;
+	private JLabel passwordL;
+	private JTextField passwordT;
+	private JButton signInB;
+	private JButton signUpB;
+
 	public LogInPanel() {
-		ButtonListener b = new ButtonListener();
-		signInB.addActionListener(b);
+		JPanel panel = new JPanel(new GridLayout(6, 0));
+
+		eMailL = new JLabel("Email Address: ");
+		panel.add(eMailL);
+
+		eMailT = new JTextField(50);
+		panel.add(eMailT);
+
+		passwordL = new JLabel("Password: ");
+		panel.add(passwordL);
+
+		passwordT = new JTextField(50);
+		panel.add(passwordT);
+
+		panel.setBorder(new LineBorder(Color.LIGHT_GRAY));
+
+		signInB = new JButton("Sign In");
+		SignInButtonListener a = new SignInButtonListener();
+		signInB.addActionListener(a);
+
+		signUpB = new JButton("Create an account?");
+		SignUpButtonListener b = new SignUpButtonListener();
 		signUpB.addActionListener(b);
-		reportB.addActionListener(b);
-		
-		JPanel buttonPanel = new JPanel(new GridLayout(6,0));
-		
-		buttonPanel.add(eMailL);
-		buttonPanel.add(eMailT);
-		buttonPanel.add(signInB);
-		buttonPanel.add(signUpL);
-		buttonPanel.add(signUpB);
-		buttonPanel.add(reportB);
-		add(buttonPanel);
-		
+
+		JPanel bp = new JPanel();
+		bp.add(signInB);
+		bp.add(signUpB);
+
+		add(panel);
+		add(bp);
 
 	}
-	
-	class ButtonListener implements ActionListener {
+
+	class SignInButtonListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent a) {
 
-			if (e.getSource() == signUpB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				JPanel newPanel = new JTabbedPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-			if (e.getSource() == signInB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				//JPanel newPanel = new JTablePanel(1);
-				JPanel newPanel = new BugTicketPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-			if (e.getSource() == reportB) {
-				String tempItem = eMailT.getText();
-				removeAll();
-				JPanel newPanel = new JTabbedPanel();
-				add(newPanel);
-				revalidate();
-				//newPanel.repaint();
-			}
-
-
+			String tempItem = eMailT.getText();
+			removeAll();
+			JPanel newPanel = new BugTicketPanel();
+			add(newPanel);
+			revalidate();
+			// newPanel.repaint();
+		}
 	}
 
+	class SignUpButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent b) {
+
+			String tempItem = eMailT.getText();
+			removeAll();
+			// JPanel newPanel = new JTablePanel(1);
+			JPanel newPanel = new JTabbedPanel();
+			add(newPanel);
+			revalidate();
+			// newPanel.repaint();
+		}
 	}
+
 }
-

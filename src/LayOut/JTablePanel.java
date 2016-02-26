@@ -229,11 +229,14 @@ public class JTablePanel extends JPanel {
 
 	public JPanel actionButtons() {
 		JPanel buttonPanel = new JPanel();
-		ButtonListener b = new ButtonListener();
-		addB.addActionListener(b);
-		editB.addActionListener(b);
-		deleteB.addActionListener(b);
-		detailB.addActionListener(b);
+
+		AddButtonListener a = new AddButtonListener();
+		addB.addActionListener(a);
+
+		ButtonListener e = new ButtonListener();
+		editB.addActionListener(e);
+		deleteB.addActionListener(e);
+		detailB.addActionListener(e);
 
 		buttonPanel.add(addB);
 		buttonPanel.add(editB);
@@ -351,14 +354,7 @@ public class JTablePanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			selectedID = "0";
 
-			if (e.getSource() == addB) {
-				removeAll();
-				JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
-				add(newPanel);
-				revalidate();
-				newPanel.repaint();
-
-			} else if (table.getSelectedRow() >= 0) {
+			if (table.getSelectedRow() >= 0) {
 				int id = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 				selectedID = Integer.toString(id);
 				if (e.getSource() == editB) {
@@ -407,5 +403,18 @@ public class JTablePanel extends JPanel {
 		}
 
 	}
+
+	class AddButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			removeAll();
+			JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
+			add(newPanel);
+			revalidate();
+			newPanel.repaint();
+		}
+	}
+
 
 } // end

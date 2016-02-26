@@ -46,7 +46,8 @@ public class BugTicketPanel extends JPanel {
 	JButton report = new JButton("Report");
 	JButton submit = new JButton("Submit");
 	JButton logout = new JButton("Logout");
-
+	JButton reportB = new JButton("Run Report");
+	
 	public BugTicketPanel() {
 
 		// itemsDropDown = new JComboBox(rsList.buildUserDropDownArray(roleNo));
@@ -61,6 +62,11 @@ public class BugTicketPanel extends JPanel {
 		logout.addActionListener(b);
 
 		// * ADD TITLES & TEXT BOXES TO THE SCREEN
+		
+		//* ADD TITLES & TEXT BOXES TO THE SCREEN
+		RunReportListener r = new RunReportListener();
+		reportB.addActionListener(r);
+		
 		setLayout(new BorderLayout());
 
 		JPanel buttonLabels = new JPanel(new GridLayout(15, 0));
@@ -90,6 +96,7 @@ public class BugTicketPanel extends JPanel {
 		buttonPanel.add(report);
 		buttonPanel.add(submit);
 		buttonPanel.add(logout);
+		buttonPanel.add(reportB);
 
 		add(buttonPanel, BorderLayout.SOUTH);
 
@@ -168,4 +175,16 @@ public class BugTicketPanel extends JPanel {
 
 	}
 
+	class RunReportListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			// String tempItem = eMailT.getText();
+			removeAll();
+			JPanel newPanel = new JTabbedPanel();
+			add(newPanel);
+			revalidate();
+		}
+	}
 }

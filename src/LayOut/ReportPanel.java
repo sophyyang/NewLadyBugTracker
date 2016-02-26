@@ -66,7 +66,7 @@ public class ReportPanel extends JPanel {
 		c.gridy = 0; 
 		c.gridwidth = 1; 
 		add(centerP, BorderLayout.CENTER); 
-		JPanel bottomP = new JTablePanel();  
+		JPanel bottomP = new JTablePanel(0);  
 		add(bottomP, BorderLayout.SOUTH); 
 		setSize(800,800); 
 		setVisible(true); 

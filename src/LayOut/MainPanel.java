@@ -1,18 +1,16 @@
 package LayOut;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainPanel extends JPanel{
 
 	private JPanel logInP = new LogInPanel();
+	private JPanel topP;
 	
 	public MainPanel() {
 
-		JPanel topP = new TopPanel(this);
+		topP = new TopPanel(this);
 		
 		setLayout(new BorderLayout());
 		

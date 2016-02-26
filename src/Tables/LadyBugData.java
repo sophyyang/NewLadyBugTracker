@@ -76,36 +76,33 @@ public class LadyBugData {
 		}
 
 	}
-	
-	public Object[] buildDropDownArray(int input)  {
- 		Object[] outArray = null;
+
+	public Object[] buildDropDownArray(int input) {
+		Object[] outArray = null;
 		try {
 			outArray = new String[this.LadyBugItems(input).size()];
 		} catch (SQLException e) {
- 			e.printStackTrace();
+			e.printStackTrace();
 		}
 		try {
 			for (int r = 0; r < this.LadyBugItems(input).size(); r++) {
 				outArray[r] = this.LadyBugItems(input).get(r).getDescription();
 			}
 		} catch (SQLException e) {
- 			e.printStackTrace();
+			e.printStackTrace();
 		}
 		return outArray;
 	}
 
-	public Object[] buildUserDropDownArray()  {
- 		Object[] outArray = null;
+	public Object[] buildUserDropDownArray() {
+		Object[] outArray = null;
 		outArray = new String[this.LadyBugUser().size()];
 		for (int r = 0; r < this.LadyBugUser().size(); r++) {
-			outArray[r] = this.LadyBugUser().get(r).getRoleDescription() + " - " +
-					this.LadyBugUser().get(r).getFirstName() + " " + 
-					this.LadyBugUser().get(r).getLastName();
+			outArray[r] = this.LadyBugUser().get(r).getRoleDescription() + " - "
+					+ this.LadyBugUser().get(r).getFirstName() + " " + this.LadyBugUser().get(r).getLastName();
 		}
 		return outArray;
 	}
-
-
 
 	public ArrayList<user> LadyBugUser() {
 		return getUserList(" ");
@@ -286,12 +283,12 @@ public class LadyBugData {
 		try {
 			String q = "UPDATE dropdownitems SET ";
 			q += " iOrder = ";
-			q += i.getiOrder() + ", " ;
+			q += i.getiOrder() + ", ";
 			q += " LastModified = NOW() ";
 			q += " WHERE ID = " + i.getID();
- 			st = con.createStatement();
+			st = con.createStatement();
 			st.executeUpdate(q);
- 			if (rs != null) {
+			if (rs != null) {
 				rs.close();
 			}
 			if (st != null) {
@@ -307,7 +304,6 @@ public class LadyBugData {
 
 	}
 
-
 	public void insertNewItem(ItemList i) {
 		makeConnection();
 		try {
@@ -316,7 +312,7 @@ public class LadyBugData {
 			q += " values (";
 			q += i.getDropdownListID() + ", ";
 			q += "'" + i.getDescription() + "', ";
-			q += i.getiOrder() ;
+			q += i.getiOrder();
 			q += ")";
 			st = con.createStatement();
 			st.executeUpdate(q);
@@ -359,19 +355,18 @@ public class LadyBugData {
 		}
 
 	}
-	
-	
+
 	public void updateUser(user i) {
 		makeConnection();
 		try {
 			String q = "UPDATE user SET ";
-			q += " FirstName = '" + i.getFirstName().trim() + "', " ;
+			q += " FirstName = '" + i.getFirstName().trim() + "', ";
 			q += " LastName = '" + i.getLastName().trim() + "', ";
 			q += " eMailAdd = '" + i.geteMailAdd() + "', ";
-			q += " RoleID = " + i.getRoleID() + ", " ;
+			q += " RoleID = " + i.getRoleID() + ", ";
 			q += " LastModified = NOW() ";
 			q += " WHERE UserID = " + i.getUserID();
- 			st = con.createStatement();
+			st = con.createStatement();
 			st.executeUpdate(q);
 			if (rs != null) {
 				rs.close();
@@ -398,11 +393,10 @@ public class LadyBugData {
 			q += i.getFirstName() + "', '";
 			q += i.getLastName() + "', ";
 			q += "'" + i.geteMailAdd() + "', ";
-			q += i.getRoleID() ;
+			q += i.getRoleID();
 			q += ")";
 			st = con.createStatement();
 			st.executeUpdate(q);
-		 
 
 			if (rs != null) {
 				rs.close();
@@ -442,7 +436,147 @@ public class LadyBugData {
 		}
 
 	}
-	
-	
 
-} //end
+	// * UPDATE BUGTICKET TABLE FROM BUGTICKETPANEL - MARY
+	public int insertNewTicket(int u, String t, String d) {
+		makeConnection();
+		int key = 0;
+		try {
+			String q = "INSERT INTO bugticket (UserID, Title, Description, CreatedDate) VALUES " + "('" + u + "', '" + t
+					+ "', '" + d + "', " + "NOW());";
+			st = con.createStatement();
+			st.executeUpdate(q, st.RETURN_GENERATED_KEYS);
+			
+			rs = st.getGeneratedKeys();
+			if (rs.next()) {
+				key = rs.getInt(1);
+			}
+			
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with bugticket table or data" + e.getMessage());
+		}
+		return key;
+	}
+
+	// * UPDATE HISTORY TABLE FROM BUGTICKETPANEL - MARY
+	public void insertNewHistory(int key, int u, int s, int p, String d) {
+		makeConnection();
+		try {
+			String q = "INSERT INTO history (TicketNo, UserID, StatusID, PriorityID, Description, CreatedDate) VALUES "
+					+ "('" + key + "', '" + u + "', '" + s + "', '" + p + "', '" + d + "', " + "NOW());";
+			
+			st = con.createStatement();
+			st.executeUpdate(q);
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with history table or data" + e.getMessage());
+		}
+	}
+
+	// * QUERY user TABLE FOR User ID - MARY
+	public int selectUser(String f, String l) {
+		makeConnection();
+		int tempNo = 0;
+		try {
+			String q = "SELECT UserId FROM user WHERE FirstName = '" + f + "' and LastName = '" + l + "';";
+			st = con.createStatement();
+			rs = st.executeQuery(q);
+
+			while (rs.next()) {
+				tempNo = rs.getInt("UserId");
+			}
+			
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("Error with user table or data" + e.getMessage());
+		}
+		return tempNo;
+	}
+
+	// * QUERY status TABLE FOR status ID - MARY
+	public int selectStatus(String s) {
+		makeConnection();
+		int tempNo = 0;
+		try {
+			String q = "SELECT ID FROM status WHERE Description = " + "'" + s + "';";
+			st = con.createStatement();
+			rs = st.executeQuery(q);
+
+			while (rs.next()) {
+				tempNo = rs.getInt("ID");
+			}
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with status table or data" + e.getMessage());
+		}
+		return tempNo;
+	}
+
+	// * QUERY priority TABLE FOR priority ID - MARY
+	public int selectPriority(String p) {
+		makeConnection();
+		int tempNo = 0;
+		try {
+			String q = "SELECT ID FROM priority WHERE Description = " + "'" + p + "';";
+			st = con.createStatement();
+			rs = st.executeQuery(q);
+
+			while (rs.next()) {
+				tempNo = rs.getInt("ID");
+			}
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error with priority table or data" + e.getMessage());
+		}
+		return tempNo;
+	}
+
+} // end

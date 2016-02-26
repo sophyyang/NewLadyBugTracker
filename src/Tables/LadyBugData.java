@@ -58,7 +58,7 @@ public class LadyBugData {
 	}
 
 	public void makeConnection() {
-		String url = "jdbc:mysql://localhost:3306/ladybugtracker";
+		String url = "jdbc:mysql://localhost/ladybugtracker";
 		String password = "password";
 		String user = "root";
 
@@ -90,6 +90,17 @@ public class LadyBugData {
 			}
 		} catch (SQLException e) {
  			e.printStackTrace();
+		}
+		return outArray;
+	}
+
+	public Object[] buildUserDropDownArray()  {
+ 		Object[] outArray = null;
+		outArray = new String[this.LadyBugUser().size()];
+		for (int r = 0; r < this.LadyBugUser().size(); r++) {
+			outArray[r] = this.LadyBugUser().get(r).getRoleDescription() + " - " +
+					this.LadyBugUser().get(r).getFirstName() + " " + 
+					this.LadyBugUser().get(r).getLastName();
 		}
 		return outArray;
 	}

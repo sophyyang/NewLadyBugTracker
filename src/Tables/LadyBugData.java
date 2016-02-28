@@ -240,6 +240,7 @@ public class LadyBugData {
 	public ArrayList<dropdownitems> LadyBugDropDownList(String ID) {
 		ArrayList<dropdownitems> arrayList = new ArrayList<dropdownitems>();
 		try {
+
 			String whereSQLstr = "";
 			if (!ID.equals("none")) {
 				whereSQLstr = " WHERE ( ID =" + ID + ") ORDER BY iOrder";

@@ -163,12 +163,14 @@ public class BugTicketPanel extends JPanel {
 			}
 
 			if (e.getSource() == logout) {
-				removeAll();
-				JPanel newPanel = new LogInPanel();
-				add(newPanel);
-				revalidate();
-				newPanel.repaint();
-				System.out.println("Logout button selected");
+				//close window after click on logout button
+				System.exit(0);
+//				removeAll();
+//				JPanel newPanel = new LogInPanel();
+//				add(newPanel);
+//				revalidate();
+//				newPanel.repaint();
+//				System.out.println("Logout button selected");
 			}
 
 		}

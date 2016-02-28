@@ -45,18 +45,16 @@ public class JTablePanel extends JPanel {
 	private LadyBugData rsList = new LadyBugData();
 	private Tables.user u = new Tables.user();
 	private Tables.ItemList itemList = new Tables.ItemList();
-	private Tables.history historyList = new Tables.history();
-	private Tables.ladybugdetail ladybugDetailList = new Tables.ladybugdetail();
 	private DefaultTableModel tableModel;
 	private JComboBox itemsDropDown;
 	private final int statusNo = 1;
 	private final int roleNo = 2;
 	private final int priorityNo = 3;
-
+ 
 	// Constructor
 	public JTablePanel() {
-		userInputStr = "DETAIL";
-		userInputInt = 99;
+		userInputStr = "USER";
+		userInputInt = 0;
 		userJTablePanel();
 	}
 
@@ -65,10 +63,6 @@ public class JTablePanel extends JPanel {
 		switch (input) {
 		case 0: // User
 			userInputStr = "USER";
-			userJTablePanel();
-			break;
-		case 99: // Ticket detail
-			userInputStr = "DETAIL";
 			userJTablePanel();
 			break;
 		default: // Status, Role, Priority
@@ -97,75 +91,16 @@ public class JTablePanel extends JPanel {
 			userInputInt = 3;
 			statusJTablePanel();
 			break;
-		case "DETAIL": // Ticket detail
-			userInputStr = "DETAIL";
-			userJTablePanel();
-			break;
 		}
 
 	}
 
 	public JScrollPane buildTable() {
 		switch (userInputStr) {
-		case "DETAIL": // Ticket detail
-			// String columnNames[] = u.getColumnNames();
-			// String[][] dataValues = new
-			// String[rsList.LadyBugUser().size()][7];
-			// for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
-			// dataValues[r][0] =
-			// Integer.toString(rsList.LadyBugUser().get(r).getUserID());
-			// dataValues[r][1] = rsList.LadyBugUser().get(r).getFirstName();
-			// dataValues[r][2] = rsList.LadyBugUser().get(r).getLastName();
-			// dataValues[r][3] = rsList.LadyBugUser().get(r).geteMailAdd();
-			// dataValues[r][4] =
-			// rsList.LadyBugUser().get(r).getRoleDescription();
-			// dataValues[r][5] =
-			// rsList.DateToString(rsList.LadyBugUser().get(r).getCreatedDate());
-			// dataValues[r][6] =
-			// rsList.DateToString(rsList.LadyBugUser().get(r).getLastModified());
-			// }
-			// table = new JTable(dataValues, columnNames) {
-			// DefaultTableCellRenderer colorBlack = new
-			// DefaultTableCellRenderer();
-			//
-			// {
-			// colorBlack.setForeground(Color.BLACK);
-			// }
-			//
-			// DefaultTableCellRenderer colorText = new
-			// DefaultTableCellRenderer();
-			//
-			// {
-			// colorText.setForeground(Color.RED);
-			// }
-			//
-			// @Override
-			// public TableCellRenderer getCellRenderer(int row, int column) {
-			// if (column == 0 || column == 5 || column == 6) {
-			// return colorText;
-			// } else {
-			// return colorBlack;
-			// }
-			// }
-			//
-			// @Override
-			// public boolean isCellEditable(int row, int column) {
-			// if (column == 0 || column == 5 || column == 6) {
-			// return false;
-			// } else {
-			// return true;
-			// }
-			// }
-			// };
-			// TableColumn dropdownColumn = table.getColumnModel().getColumn(4);
-			// dropdownColumn.setCellEditor(new
-			// DefaultCellEditor(itemsDropDown));
-			// table.setRowHeight(20);
-			break;
 		case "USER":
 			String columnNames[] = u.getColumnNames();
 			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
-			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
+ 			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
 			for (int r = 0; r < rsList.LadyBugUser().size(); r++) {
 				dataValues[r][0] = Integer.toString(rsList.LadyBugUser().get(r).getUserID());
 				dataValues[r][1] = rsList.LadyBugUser().get(r).getFirstName();
@@ -219,24 +154,20 @@ public class JTablePanel extends JPanel {
 		table.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		// table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
-		// table.setPreferredScrollableViewportSize(new Dimension(iWidth,
-		// iHight));
-		// table.setFillsViewportHeight(true);
+//		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
+//		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
+//		table.setFillsViewportHeight(true);
 
 		return scrollPane;
 	}
 
 	public JPanel actionButtons() {
 		JPanel buttonPanel = new JPanel();
-
-		AddButtonListener a = new AddButtonListener();
-		addB.addActionListener(a);
-
-		ButtonListener e = new ButtonListener();
-		editB.addActionListener(e);
-		deleteB.addActionListener(e);
-		detailB.addActionListener(e);
+		ButtonListener b = new ButtonListener();
+		addB.addActionListener(b);
+		editB.addActionListener(b);
+		deleteB.addActionListener(b);
+		detailB.addActionListener(b);
 
 		buttonPanel.add(addB);
 		buttonPanel.add(editB);
@@ -354,7 +285,14 @@ public class JTablePanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			selectedID = "0";
 
-			if (table.getSelectedRow() >= 0) {
+			if (e.getSource() == addB) {
+				removeAll();
+				JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
+				add(newPanel);
+				revalidate();
+				newPanel.repaint();
+
+			} else if (table.getSelectedRow() >= 0) {
 				int id = Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 				selectedID = Integer.toString(id);
 				if (e.getSource() == editB) {
@@ -388,10 +326,10 @@ public class JTablePanel extends JPanel {
 						int index = table.getSelectedRow();
 						u = new Tables.user();
 						u.setUserID(id);
-						rsList.LadyBugUser().remove(index);
+ 						rsList.LadyBugUser().remove(index);
 						rsList.deleteUser(u);
 						JOptionPane.showMessageDialog(null, "ID " + id + " deleted!");
-
+						
 						removeAll();
 						userJTablePanel();
 					}
@@ -403,18 +341,5 @@ public class JTablePanel extends JPanel {
 		}
 
 	}
-
-	class AddButtonListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			removeAll();
-			JPanel newPanel = new DetailPanel(userInputStr, "ADDB", selectedID);
-			add(newPanel);
-			revalidate();
-			newPanel.repaint();
-		}
-	}
-
 
 } // end

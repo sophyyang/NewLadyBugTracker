@@ -27,6 +27,10 @@ public class JTabbedPanel extends JPanel {
 		priorityB.add(createTableB("priority"));
 		tabbedPane.addTab("Priority Table", priorityB);
 		
+		JPanel detailB = new JPanel();
+		detailB.add(createTableB("ticket"));
+		tabbedPane.addTab("Ticket List", detailB);
+		
 		// Add tabbedPane to this panel.
 		add(tabbedPane, BorderLayout.CENTER);
 	}

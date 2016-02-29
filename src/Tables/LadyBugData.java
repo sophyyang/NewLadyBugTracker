@@ -30,6 +30,7 @@ public class LadyBugData {
 			+ "dropdownitems.dropdownListID AS dropdownListID " + " FROM " + "(dropdownitems  JOIN dropdownlist ON "
 			+ "((dropdownitems.DropdownListID = dropdownlist.DropdownListID))) " + " WHERE "
 			+ " (dropdownitems.DropdownListID  ";
+	private final String ticketSqlStr = "SELECT * FROM ladybugdetail";
 
 	// ArrayList<ItemList> arrayList = new ArrayList<ItemList>();
 	//
@@ -76,17 +77,22 @@ public class LadyBugData {
 		}
 
 	}
-
+	
 	public Object[] buildDropDownArray(int input) {
+		return buildDropDownArray1(input, 0);
+	}
+
+	public Object[] buildDropDownArray1(int input, int start) {
 		Object[] outArray = null;
 		try {
-			outArray = new String[this.LadyBugItems(input).size()];
+			outArray = new String[this.LadyBugItems(input).size() + start] ;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		try {
-			for (int r = 0; r < this.LadyBugItems(input).size(); r++) {
-				outArray[r] = this.LadyBugItems(input).get(r).getDescription();
+			outArray[0] = "List All";
+			for (int r = start; r < (this.LadyBugItems(input).size() + start); r++) {
+				outArray[r] = this.LadyBugItems(input).get(r-start).getDescription();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -95,11 +101,15 @@ public class LadyBugData {
 	}
 
 	public Object[] buildUserDropDownArray() {
+		return buildUserDropDownArray1(0);
+	}
+
+	public Object[] buildUserDropDownArray1(int start) {
 		Object[] outArray = null;
-		outArray = new String[this.LadyBugUser().size()];
-		for (int r = 0; r < this.LadyBugUser().size(); r++) {
-			outArray[r] = this.LadyBugUser().get(r).getRoleDescription() + " - "
-					+ this.LadyBugUser().get(r).getFirstName() + " " + this.LadyBugUser().get(r).getLastName();
+		outArray = new String[this.LadyBugUser().size() + start] ;
+		outArray[0] = "List All";
+		for (int r = start; r < (this.LadyBugUser().size() + start) ; r++) {
+			outArray[r] = this.LadyBugUser().get(r-start).getFirstName() + " " + this.LadyBugUser().get(r-start).getLastName();
 		}
 		return outArray;
 	}
@@ -147,7 +157,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("1Error with table or data");
 		}
 
 		return arrayList;
@@ -227,7 +237,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("2Error with table or data");
 		}
 
 		return arrayList;
@@ -273,7 +283,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("3Error with table or data");
 		}
 
 		return arrayList;
@@ -300,7 +310,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("4Error with table or data");
 		}
 
 	}
@@ -329,7 +339,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("5Error with table or data");
 		}
 
 	}
@@ -352,7 +362,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("6Error with table or data");
 		}
 
 	}
@@ -380,7 +390,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("7Error with table or data");
 		}
 
 	}
@@ -410,7 +420,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data");
+			System.out.println("8Error with table or data");
 		}
 
 	}
@@ -433,7 +443,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Error with table or data " + e.getMessage());
+			System.out.println("9Error with table or data " + e.getMessage());
 		}
 
 	}
@@ -445,6 +455,8 @@ public class LadyBugData {
 		try {
 			String q = "INSERT INTO bugticket (UserID, Title, Description, CreatedDate) VALUES " + "('" + u + "', '" + t
 					+ "', '" + d + "', " + "NOW());";
+			System.out.println(q);
+
 			st = con.createStatement();
 			st.executeUpdate(q, st.RETURN_GENERATED_KEYS);
 			
@@ -475,7 +487,8 @@ public class LadyBugData {
 		try {
 			String q = "INSERT INTO history (TicketNo, UserID, StatusID, PriorityID, Description, CreatedDate) VALUES "
 					+ "('" + key + "', '" + u + "', '" + s + "', '" + p + "', '" + d + "', " + "NOW());";
-			
+			System.out.println(q);
+		
 			st = con.createStatement();
 			st.executeUpdate(q);
 
@@ -490,6 +503,7 @@ public class LadyBugData {
 			}
 
 		} catch (SQLException e) {
+			System.out.println();
 			System.out.println("Error with history table or data" + e.getMessage());
 		}
 	}
@@ -502,6 +516,7 @@ public class LadyBugData {
 			String q = "SELECT UserId FROM user WHERE FirstName = '" + f + "' and LastName = '" + l + "';";
 			st = con.createStatement();
 			rs = st.executeQuery(q);
+			System.out.println("userid="+tempNo+" sql="+q);
 
 			while (rs.next()) {
 				tempNo = rs.getInt("UserId");
@@ -579,5 +594,63 @@ public class LadyBugData {
 		}
 		return tempNo;
 	}
+
+	
+	public ArrayList<ladybugdetail> LadyBugTicket() {
+		return getLadyBugTicket(" ");
+	}
+
+	public ArrayList<ladybugdetail> LadyBugTicket(String ID) {
+		String sqlWhereStr = " WHERE TicketNo = " + ID;
+		return getLadyBugTicket(sqlWhereStr);
+	}
+
+	public ArrayList<ladybugdetail> getLadyBugTicket(String sqlWhereStr) {
+		ArrayList<ladybugdetail> arrayList = new ArrayList<ladybugdetail>();
+		try {
+			makeConnection();
+			String q = ticketSqlStr;
+			st = con.createStatement();
+			if (sqlWhereStr.equals("List All")) {
+				sqlWhereStr ="";
+			}
+			rs = st.executeQuery(q + sqlWhereStr);
+			while (rs.next()) {
+				Tables.ladybugdetail ticket = new Tables.ladybugdetail();
+				ticket.setTicketNo(rs.getInt(1));
+				ticket.setRequesterFirstName(rs.getString(2));
+				ticket.setRequesterLastName(rs.getString(3));
+				ticket.setPriority(rs.getString(4));
+				ticket.setStatus(rs.getString(5));
+				ticket.setRole(rs.getString(6));
+				ticket.setTitle(rs.getString(7));
+				ticket.setDescription(rs.getString(8));
+				Timestamp times = rs.getTimestamp(9);				
+				ticket.setRequestDate(times);
+				ticket.setAssigneeFirstName(rs.getString(10));
+				ticket.setAssigneeLastName(rs.getString(11));
+				ticket.setDetailDescription(rs.getString(12));
+				times = rs.getTimestamp(13);
+				ticket.setCreatedDate(times);
+				arrayList.add(ticket);
+			}
+
+			if (rs != null) {
+				rs.close();
+			}
+			if (st != null) {
+				st.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("0Error with table or data");
+		}
+
+		return arrayList;
+	}
+
 
 } // end

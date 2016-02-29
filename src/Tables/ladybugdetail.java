@@ -14,11 +14,56 @@ public class ladybugdetail {
 	private 	String assigneeFirstName;
 	private 	String assigneeLastName;
 	private 	String detailDescription;
-	private 	Timestamp lastModified;
-	
+	private  	String title;
+	private 	Timestamp createdDate;
+	private  	String priority;
+	private 	String status;
+	private  	String role;
+ 	
+
 	public ladybugdetail() {
 		
 	}
+	
+	
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	public String[] getColumnNames() {
+		//String[] arrays = {"Ticket No", "Requester","Priority", "Status", "Role", "Title", "Description", "Request Date", "Assignee", "Detail Description"} ;
+		String[] arrays = {"Ticket No", "Requester", "Title", "Detail Description", "Request Date"} ;
+		return arrays;		
+	}
+	
+	public String reauesterFullName() {
+		return this.requesterFirstName + " " + this.requesterLastName;
+	}
+
+	public String assigneeFullName() {
+		return this.assigneeFirstName + " " + this.assigneeLastName;
+	}
+	
 	public int getTicketNo() {
 		return ticketNo;
 	}
@@ -85,11 +130,21 @@ public class ladybugdetail {
 	public void setDetailDescription(String detailDescription) {
 		this.detailDescription = detailDescription;
 	}
-	public Timestamp getLastModified() {
-		return lastModified;
+
+	public String getTitle() {
+		return title;
 	}
-	public void setLastModified(Timestamp lastModified) {
-		this.lastModified = lastModified;
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	

@@ -21,8 +21,8 @@ public class LogInPanel extends JPanel {
 
 	private JLabel eMailL;
 	private JTextField eMailT;
-	private JLabel passwordL;
-	private JTextField passwordT;
+//	private JLabel passwordL;
+//	private JTextField passwordT;
 	private JButton signInB;
 	private JButton signUpB;
 
@@ -35,11 +35,11 @@ public class LogInPanel extends JPanel {
 		eMailT = new JTextField(50);
 		panel.add(eMailT);
 
-		passwordL = new JLabel("Password: ");
-		panel.add(passwordL);
+//		passwordL = new JLabel("Password: ");
+//		panel.add(passwordL);
 
-		passwordT = new JTextField(50);
-		panel.add(passwordT);
+//		passwordT = new JTextField(50);
+//		panel.add(passwordT);
 
 		panel.setBorder(new LineBorder(Color.LIGHT_GRAY));
 

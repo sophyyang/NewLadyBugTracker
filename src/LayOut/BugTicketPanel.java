@@ -69,8 +69,8 @@ public class BugTicketPanel extends JPanel {
 		
 		setLayout(new BorderLayout());
 
-		JPanel buttonLabels = new JPanel(new GridLayout(15, 0));
-		JPanel textBoxes = new JPanel(new GridLayout(15, 0));
+		JPanel buttonLabels = new JPanel(new GridLayout(7, 0));
+		JPanel textBoxes = new JPanel(new GridLayout(7, 0));
 
 		buttonLabels.add(ticketNoLabel);
 		textBoxes.add(ticketNo);
@@ -96,9 +96,11 @@ public class BugTicketPanel extends JPanel {
 		buttonPanel.add(report);
 		buttonPanel.add(submit);
 		buttonPanel.add(logout);
-		buttonPanel.add(reportB);
+		//buttonPanel.add(reportB);
 
-		add(buttonPanel, BorderLayout.SOUTH);
+		add(buttonPanel, BorderLayout.NORTH);
+		JPanel bottomP = new JTablePanel(4);  
+		add(bottomP, BorderLayout.SOUTH); 
 
 	}
 
@@ -127,18 +129,22 @@ public class BugTicketPanel extends JPanel {
 			}
 
 			if (e.getSource() == submit) {
-				String user = userId.getSelectedItem().toString();
-				int startSpace = user.indexOf("-");
-				int endSpace = user.lastIndexOf(" ");
-				String first = "";
-				String last = "";
-				if (startSpace > 0) {
-					first = user.substring(startSpace + 2, endSpace);
-					if (endSpace > startSpace) {
-						last = user.substring(endSpace + 1, user.length());
-					}
-				}
-				int u = rsList.selectUser(first, last);
+				String user = userId.getSelectedItem().toString().trim();
+//				System.out.println("user="+user);
+//				int startSpace = user.indexOf("-");
+//				int endSpace = user.lastIndexOf(" ");
+//				String first = "";
+//				String last = "";
+//				if (startSpace > 0) {
+//					first = user.substring(startSpace + 2, endSpace);
+//					if (endSpace > startSpace) {
+//						last = user.substring(endSpace + 1, user.length());
+//					}
+//				}
+//				int u = rsList.selectUser(first, last);
+				String[] tempT;
+				tempT = user.split(" ", 2);
+				int u = rsList.selectUser(tempT[0], tempT[1]);
 				//int tempU = bt.getUserID();
 				//System.out.println("getUserID tempU value is  " + tempU);
 				
@@ -160,6 +166,12 @@ public class BugTicketPanel extends JPanel {
 				desc.setText("");
 				
 				System.out.println("Submit button selected.  Add new ticket to database");
+				removeAll();
+				JPanel newPanel = new BugTicketPanel();				
+				add(newPanel);
+				newPanel.revalidate();
+				newPanel.repaint();				
+				
 			}
 
 			if (e.getSource() == logout) {

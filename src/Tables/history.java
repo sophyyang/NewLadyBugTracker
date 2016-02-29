@@ -14,6 +14,11 @@ public class history {
 	public history () {
 		
 	}
+	public String[] getColumnNames() {
+		String[] arrays = {"History ID", "Ticket No", "User", "Status", "Priority", "Description", "Date Created"} ;
+		return arrays;		
+	}
+
 	public int getHistoryID() {
 		return historyID;
 	}

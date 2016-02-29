@@ -15,6 +15,11 @@ public class bugticket {
 		
 	}
 	
+	public String[] getColumnNames() {
+		String[] arrays = {"Ticket No", "User ID", "Title", "Description", "Date Created"} ;
+		return arrays;		
+	}
+	
 	public int getTicketNo() {
 		return ticketNo;
 	}

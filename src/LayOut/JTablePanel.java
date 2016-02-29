@@ -44,12 +44,17 @@ public class JTablePanel extends JPanel {
 	private String userActionStr;
 	private LadyBugData rsList = new LadyBugData();
 	private Tables.user u = new Tables.user();
+	private Tables.ladybugdetail ticket = new Tables.ladybugdetail();
 	private Tables.ItemList itemList = new Tables.ItemList();
 	private DefaultTableModel tableModel;
 	private JComboBox itemsDropDown;
 	private final int statusNo = 1;
 	private final int roleNo = 2;
 	private final int priorityNo = 3;
+	private final int detailNo = 4;
+	private final int userNo = 0;
+
+	private String inputSqlStr;
  
 	// Constructor
 	public JTablePanel() {
@@ -59,10 +64,19 @@ public class JTablePanel extends JPanel {
 	}
 
 	public JTablePanel(int input) {
+		this(input, "List All");
+	}
+	
+	public JTablePanel(int input, String sqlStr) {
 		userInputInt = input;
+		inputSqlStr = sqlStr;
 		switch (input) {
 		case 0: // User
 			userInputStr = "USER";
+			userJTablePanel();
+			break;
+		case 4: //ticket
+			userInputStr = "TICKET";
 			userJTablePanel();
 			break;
 		default: // Status, Role, Priority
@@ -73,7 +87,12 @@ public class JTablePanel extends JPanel {
 	}
 
 	public JTablePanel(String input) {
+		this(input, "List All");
+ 	}
+	
+	public JTablePanel(String input, String sqlStr) {
 		userInputStr = input.toUpperCase();
+		inputSqlStr = sqlStr;
 		switch (userInputStr) {
 		case "USER":
 			userInputInt = 0;
@@ -91,13 +110,17 @@ public class JTablePanel extends JPanel {
 			userInputInt = 3;
 			statusJTablePanel();
 			break;
+		case "TICKET":
+			userInputInt = 4;
+			userJTablePanel();
+			break;
 		}
 
 	}
 
 	public JScrollPane buildTable() {
 		switch (userInputStr) {
-		case "USER":
+ 		case "USER":
 			String columnNames[] = u.getColumnNames();
 			String[][] dataValues = new String[rsList.LadyBugUser().size()][7];
  			itemsDropDown = new JComboBox(rsList.buildDropDownArray(roleNo));
@@ -143,21 +166,61 @@ public class JTablePanel extends JPanel {
 			};
 			TableColumn dropdownColumn = table.getColumnModel().getColumn(4);
 			dropdownColumn.setCellEditor(new DefaultCellEditor(itemsDropDown));
-			table.setRowHeight(20);
-			break;
+ 			break;
+		case "TICKET":
+ 			String columnNames1[] = ticket.getColumnNames();
+			String[][] dataValues1 = new String[rsList.getLadyBugTicket(inputSqlStr).size()][5];
+			for (int r = 0; r < rsList.getLadyBugTicket(inputSqlStr).size(); r++) {
+				dataValues1[r][0] = Integer.toString(rsList.getLadyBugTicket(inputSqlStr).get(r).getTicketNo());
+				dataValues1[r][1] = rsList.getLadyBugTicket(inputSqlStr).get(r).reauesterFullName();
+				dataValues1[r][2] = rsList.getLadyBugTicket(inputSqlStr).get(r).getTitle();
+				dataValues1[r][3] = rsList.getLadyBugTicket(inputSqlStr).get(r).getDetailDescription(); 
+  				dataValues1[r][4] = rsList.DateToString(rsList.getLadyBugTicket(inputSqlStr).get(r).getRequestDate());
+			}
+			table = new JTable(dataValues1, columnNames1) {
+				DefaultTableCellRenderer colorBlack = new DefaultTableCellRenderer();
+
+				{
+					colorBlack.setForeground(Color.BLACK);
+				}
+
+				DefaultTableCellRenderer colorText = new DefaultTableCellRenderer();
+
+				{
+					colorText.setForeground(Color.RED);
+				}
+
+				@Override
+				public TableCellRenderer getCellRenderer(int row, int column) {
+					if (column < 0) {
+						return colorText;
+					} else {
+						return colorBlack;
+					}
+				}
+
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					if (column >= 0) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
+			TableColumn dropdownColumn1 = table.getColumnModel().getColumn(4);
+ 			break;
 		case "ITEMS":
 			break;
 		}
 
+		table.setRowHeight(20);
+		table.setAutoCreateRowSorter(true);
 		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
 		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
 		table.setFillsViewportHeight(true);
 		scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
-//		table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
-//		table.setFillsViewportHeight(true);
-
 		return scrollPane;
 	}
 
@@ -169,14 +232,18 @@ public class JTablePanel extends JPanel {
 		deleteB.addActionListener(b);
 		detailB.addActionListener(b);
 
-		buttonPanel.add(addB);
-		buttonPanel.add(editB);
 		switch (userInputStr) {
 		case "USER":
+			buttonPanel.add(addB);
+			buttonPanel.add(editB);
 			buttonPanel.add(deleteB);
 			buttonPanel.add(detailB);
 			break;
+		case "TICKET":
+			break;
 		default:
+			buttonPanel.add(addB);
+			buttonPanel.add(editB);
 			break;
 		}
 
@@ -185,7 +252,14 @@ public class JTablePanel extends JPanel {
 	}
 
 	public void userJTablePanel() {
-		setBackground(Color.YELLOW);
+		switch (userInputInt) {
+		case 0:
+			setBackground(Color.YELLOW);
+			break;
+		case 4:
+			setBackground(Color.CYAN);
+			break;
+		}
 
 		topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
@@ -268,6 +342,7 @@ public class JTablePanel extends JPanel {
 			table.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
 			table.setPreferredScrollableViewportSize(new Dimension(iWidth, iHight));
 			table.setFillsViewportHeight(true);
+			table.setAutoCreateRowSorter(true);
 			topPanel.add(scrollPane, BorderLayout.CENTER);
 
 			JPanel buttonPanel = new JPanel();

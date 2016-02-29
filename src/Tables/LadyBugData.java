@@ -455,7 +455,6 @@ public class LadyBugData {
 		try {
 			String q = "INSERT INTO bugticket (UserID, Title, Description, CreatedDate) VALUES " + "('" + u + "', '" + t
 					+ "', '" + d + "', " + "NOW());";
-			System.out.println(q);
 
 			st = con.createStatement();
 			st.executeUpdate(q, st.RETURN_GENERATED_KEYS);
@@ -487,7 +486,6 @@ public class LadyBugData {
 		try {
 			String q = "INSERT INTO history (TicketNo, UserID, StatusID, PriorityID, Description, CreatedDate) VALUES "
 					+ "('" + key + "', '" + u + "', '" + s + "', '" + p + "', '" + d + "', " + "NOW());";
-			System.out.println(q);
 		
 			st = con.createStatement();
 			st.executeUpdate(q);
@@ -516,7 +514,6 @@ public class LadyBugData {
 			String q = "SELECT UserId FROM user WHERE FirstName = '" + f + "' and LastName = '" + l + "';";
 			st = con.createStatement();
 			rs = st.executeQuery(q);
-			System.out.println("userid="+tempNo+" sql="+q);
 
 			while (rs.next()) {
 				tempNo = rs.getInt("UserId");

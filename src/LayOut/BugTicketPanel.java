@@ -166,6 +166,12 @@ public class BugTicketPanel extends JPanel {
 				desc.setText("");
 				
 				System.out.println("Submit button selected.  Add new ticket to database");
+				removeAll();
+				JPanel newPanel = new BugTicketPanel();				
+				add(newPanel);
+				newPanel.revalidate();
+				newPanel.repaint();				
+				
 			}
 
 			if (e.getSource() == logout) {

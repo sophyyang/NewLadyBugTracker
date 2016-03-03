@@ -24,10 +24,10 @@ public class BugTicketPanel extends JPanel {
 
 	String TicketNo = "1";
 
-	JLabel ticketNoLabel = new JLabel("Ticket No.");
-	JLabel ticketNo = new JLabel(TicketNo);
+	JLabel ticketNoLabel = new JLabel("Requester     ");
+	JLabel ticketNo;
 
-	JLabel userIdLabel = new JLabel("User ID");
+	JLabel userIdLabel = new JLabel("Assignee ");
 	JComboBox userId = new JComboBox();
 
 	JLabel priorityLabel = new JLabel("Priority");
@@ -39,7 +39,7 @@ public class BugTicketPanel extends JPanel {
 	JLabel titleLabel = new JLabel("Title");
 	JTextField title = new JTextField(45);
 
-	JLabel descLabel = new JLabel("Description");
+	JLabel descLabel = new JLabel("Description ");
 	JTextField desc = new JTextField(50);
 
 	JButton admin = new JButton("Admin");
@@ -48,7 +48,26 @@ public class BugTicketPanel extends JPanel {
 	JButton logout = new JButton("Logout");
 	JButton reportB = new JButton("Run Report");
 	
+	private int requestID;
+	private String assigneeName;
+	
 	public BugTicketPanel() {
+		this(" ", 1);
+	}
+	
+	public BugTicketPanel(String assignee, int ID) {
+		requestID = ID;
+		this.assigneeName = assignee;
+		mainBugTicketPanel();
+	}
+	
+	public BugTicketPanel(String assignee) {
+		this.assigneeName = assignee;
+		mainBugTicketPanel();
+	}
+	public void mainBugTicketPanel() {	
+		TicketNo = this.assigneeName;
+		ticketNo = new JLabel(TicketNo);
 
 		// itemsDropDown = new JComboBox(rsList.buildUserDropDownArray(roleNo));
 		userId = new JComboBox(rsList.buildUserDropDownArray());
@@ -156,9 +175,9 @@ public class BugTicketPanel extends JPanel {
 				
 				String t = title.getText();
 				String d = desc.getText();
-				
+ 
 				//* UPDATE TABLES  
-				int key = rsList.insertNewTicket(u, t, d);
+				int key = rsList.insertNewTicket(requestID, t, d);
 				rsList.insertNewHistory(key, u, statusId, priorityId, d);
 				
 				//* CLEAR TEXT FIELDS

@@ -81,8 +81,10 @@ public class LogInPanel extends JPanel {
 
 			String tempItem = eMailT.getText();
 			removeAll();
-			// JPanel newPanel = new JTablePanel(1);
-			JPanel newPanel = new JTabbedPanel();
+			JPanel newPanel = new DetailPanel("USER", "ADDB", "0");
+			newPanel.setSize(700, 500);
+			//JPanel newPanel = new JTablePanel(0);
+			//JPanel newPanel = new JTabbedPanel();
 			add(newPanel);
 			revalidate();
 			// newPanel.repaint();

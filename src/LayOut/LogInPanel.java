@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import Tables.LadyBugData;
+
 public class LogInPanel extends JPanel {
 
 	private JLabel eMailL;
@@ -25,6 +27,7 @@ public class LogInPanel extends JPanel {
 //	private JTextField passwordT;
 	private JButton signInB;
 	private JButton signUpB;
+	LadyBugData rsList = new LadyBugData();
 
 	public LogInPanel() {
 		JPanel panel = new JPanel(new GridLayout(6, 0));
@@ -65,9 +68,17 @@ public class LogInPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent a) {
 
-			String tempItem = eMailT.getText();
+			String tempItem = " WHERE eMailAdd = '" + eMailT.getText().trim() + "' ";
+			String userName = " ";
+			int requestID = 1;
+			String[] dataValues = new String[rsList.getUserList(tempItem).size()];
+			if (dataValues.length == 1 ) {
+				userName =  (rsList.getUserList(tempItem).get(0).getFirstName() + " " + rsList.getUserList(tempItem).get(0).getLastName());
+				requestID = (rsList.getUserList(tempItem).get(0).getUserID());
+				//System.out.println("userid=" + userID);
+			}
 			removeAll();
-			JPanel newPanel = new BugTicketPanel();
+			JPanel newPanel = new BugTicketPanel(userName, requestID);
 			add(newPanel);
 			revalidate();
 			// newPanel.repaint();

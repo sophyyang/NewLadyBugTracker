@@ -169,13 +169,14 @@ public class JTablePanel extends JPanel {
  			break;
 		case "TICKET":
  			String columnNames1[] = ticket.getColumnNames();
-			String[][] dataValues1 = new String[rsList.getLadyBugTicket(inputSqlStr).size()][5];
+			String[][] dataValues1 = new String[rsList.getLadyBugTicket(inputSqlStr).size()][6];
 			for (int r = 0; r < rsList.getLadyBugTicket(inputSqlStr).size(); r++) {
 				dataValues1[r][0] = Integer.toString(rsList.getLadyBugTicket(inputSqlStr).get(r).getTicketNo());
 				dataValues1[r][1] = rsList.getLadyBugTicket(inputSqlStr).get(r).reauesterFullName();
 				dataValues1[r][2] = rsList.getLadyBugTicket(inputSqlStr).get(r).getTitle();
 				dataValues1[r][3] = rsList.getLadyBugTicket(inputSqlStr).get(r).getDetailDescription(); 
-  				dataValues1[r][4] = rsList.DateToString(rsList.getLadyBugTicket(inputSqlStr).get(r).getRequestDate());
+  				dataValues1[r][4] = rsList.getLadyBugTicket(inputSqlStr).get(r).getAssigneeFirstName();
+  				dataValues1[r][5] = rsList.DateToString(rsList.getLadyBugTicket(inputSqlStr).get(r).getRequestDate());
 			}
 			table = new JTable(dataValues1, columnNames1) {
 				DefaultTableCellRenderer colorBlack = new DefaultTableCellRenderer();
@@ -208,7 +209,7 @@ public class JTablePanel extends JPanel {
 					}
 				}
 			};
-			TableColumn dropdownColumn1 = table.getColumnModel().getColumn(4);
+			TableColumn dropdownColumn1 = table.getColumnModel().getColumn(5);
  			break;
 		case "ITEMS":
 			break;

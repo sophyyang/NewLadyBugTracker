@@ -52,7 +52,7 @@ public class ladybugdetail {
 	
 	public String[] getColumnNames() {
 		//String[] arrays = {"Ticket No", "Requester","Priority", "Status", "Role", "Title", "Description", "Request Date", "Assignee", "Detail Description"} ;
-		String[] arrays = {"Ticket No", "Requester", "Title", "Detail Description", "Request Date"} ;
+		String[] arrays = {"Ticket No", "Requester", "Title", "Detail Description", "Assignee", "Request Date"} ;
 		return arrays;		
 	}
 	

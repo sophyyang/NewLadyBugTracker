@@ -128,6 +128,7 @@ public class LadyBugData {
 		try {
 			makeConnection();
 			String q = userSqlStr;
+			//System.out.println(q + sqlWhereStr);
 			st = con.createStatement();
 			rs = st.executeQuery(q + sqlWhereStr);
 			while (rs.next()) {
